@@ -13,71 +13,27 @@ class Filter extends Component {
     fetch("http://localhost:3000/data/product.json")
       .then((res) => res.json())
       .then((res) => {
-        // console.log("data", res);
-
-        let temp = res.filter((ele) => ele.id % 10 === 0);
-
-        localStorage.setItem("selected", JSON.stringify(temp));
-        const getSelected = JSON.parse(localStorage.getItem("selected"));
-        this.setState({ data: getSelected });
+        console.log("data", res);
       });
   };
 
-  // 브랜드 필터
-  brandFilter = (e) => {
-    const target = e.target.innerHTML;
-
-    const getSelected = JSON.parse(localStorage.getItem("selected"));
-
-    // 전체
-    if (target === "전체") {
-      console.log("전체", getSelected);
-      this.setState({ data: getSelected });
-    } else {
-      console.log(
-        `${target}`,
-        getSelected.filter((ele) => ele.brand === target)
-      );
-      let temp = getSelected.filter((ele) => ele.brand === target);
-      this.setState({ data: temp });
-    }
-  };
-
-  // 관심 필터
-  interestFitler = () => {
-    console.log("관심");
-  };
-
   render() {
-    const { data } = this.state;
-
     return (
-      <>
-        <Container>
-          <Brand>
-            <div>필터: 브랜드</div>
-            <div onClick={this.brandFilter}>
-              <button>전체</button>
-              <button>구찌</button>
-              <button>루이비통</button>
-              <button>스톤아일랜드</button>
-            </div>
-          </Brand>
-          <Interest>
-            <div>필터: 관심</div>
-            <button onClick={this.interestFitler}>관심없는 상품 숨기기</button>
-          </Interest>
-        </Container>
-
-        <div>
-          {(data || []).map((ele, index) => (
-            <div key={index}>
-              <span>{ele.title}</span>
-              <span>{ele.price}</span>
-            </div>
-          ))}
-        </div>
-      </>
+      <Container>
+        <Brand>
+          <div>필터: 브랜드</div>
+          <div>
+            <span>전체</span>
+            <span>구찌</span>
+            <span>루이비통</span>
+            <span>스톤아일랜드</span>
+          </div>
+        </Brand>
+        <Interest>
+          <div>필터: 관심없음</div>
+          <div>관심없는 상품 숨기기</div>
+        </Interest>
+      </Container>
     );
   }
 }
