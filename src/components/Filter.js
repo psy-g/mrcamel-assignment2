@@ -13,8 +13,6 @@ class Filter extends Component {
     fetch("http://localhost:3000/data/product.json")
       .then((res) => res.json())
       .then((res) => {
-        // console.log("data", res);
-
         let temp = res.filter((ele) => ele.id % 10 === 0);
 
         localStorage.setItem("selected", JSON.stringify(temp));
@@ -26,7 +24,6 @@ class Filter extends Component {
   // 브랜드 필터
   brandFilter = (e) => {
     const target = e.target.innerHTML;
-
     const getSelected = JSON.parse(localStorage.getItem("selected"));
 
     // 전체
