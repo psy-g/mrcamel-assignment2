@@ -10,27 +10,37 @@ class ProductDetailPage extends Component {
     };
   }
 
+  setStorage = (product) => {
+    const getSelected = JSON.parse(localStorage.getItem("selected"));
+    if (getSelected.includes(product)) {
+      // getSelected에서 product 제거
+      const existIndex = getSelected.findIndex((el) => el.id === product.id);
+      getSelected.splice(existIndex, 1);
+    }
+    localStorage.setItem("selected", JSON.stringify([...getSelected, product]));
+  };
+
   componentDidMount() {
     fetch("http://localhost:3000/data/product.json")
       .then((res) => res.json())
       .then((res) => {
         this.setState({ products: res, product: res[this.props.match.params.id - 1] });
+        this.setStorage(res[this.props.match.params.id - 1]);
       });
-    // localStraoge에 조회된 상품 추가
-    const getSelected = JSON.parse(localStorage.getItem("selected"));
-    localStorage.setItem("selected", JSON.stringify([...getSelected, this.state.product]));
   }
 
   randomProduct = () => {
     // localStraoge에서 조회된 상품 목록 불러오기
     const getSelected = JSON.parse(localStorage.getItem("selected"));
 
+    console.log(getSelected);
     // 관심없음 상품, 현 상품 제외하고 랜덤 상품 id 생성
     const notInterestedId = getSelected
       .filter((product) => {
         return product.interest;
       })
       .map((product) => product.id);
+
     const currentProductId = this.state.product.id;
     const avaliableProductIds = this.state.products
       .map((product) => product.id)
@@ -41,16 +51,15 @@ class ProductDetailPage extends Component {
     this.props.history.push(`/product/${randomId}`);
     this.setState({ product: this.state.products[randomId - 1] });
     // // localStroage에 조회된 상품 추가
-    // localStorage.setItem("selected", JSON.stringify([...getSelected, this.state.product]));
+    this.setStorage(this.state.product);
   };
 
   setNotInterested = (product) => {
     // localStrage에 조회된 상품에서 상품을 조회 -> 상품 제거 -> interest: false 로 변경 후 상품 다시 추가
     const getSelected = JSON.parse(localStorage.getItem("selected"));
-    getSelected.pop();
+    // 찾아서 제거
     getSelected.push({ ...product, interest: false });
     console.log(getSelected);
-    localStorage.setItem("selected", JSON.stringify(getSelected));
 
     this.randomProduct();
   };
