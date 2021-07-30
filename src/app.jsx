@@ -16,7 +16,7 @@ function App() {
         <Switch>
           <Route exact path="/" component={Home} />
           <Route exact path="/product/:id" component={ProductDetailPage} />
-          <Route path="/recentList" component={RecentList}/>
+          <Route path="/recentList" component={RecentList} />
         </Switch>
       </Router>
     </ThemeProvider>

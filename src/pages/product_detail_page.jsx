@@ -24,7 +24,10 @@ class ProductDetailPage extends Component {
     fetch("http://localhost:3000/data/product.json")
       .then((res) => res.json())
       .then((res) => {
-        this.setState({ products: res, product: res[this.props.match.params.id - 1] });
+        this.setState({
+          products: res,
+          product: res[this.props.match.params.id - 1],
+        });
         this.setStorage(res[this.props.match.params.id - 1]);
       });
   }
@@ -45,7 +48,10 @@ class ProductDetailPage extends Component {
     const avaliableProductIds = this.state.products
       .map((product) => product.id)
       .filter((id) => !notInterestedId.includes(id) && id !== currentProductId);
-    const randomId = avaliableProductIds[Math.floor(Math.random() * avaliableProductIds.length)];
+    const randomId =
+      avaliableProductIds[
+        Math.floor(Math.random() * avaliableProductIds.length)
+      ];
 
     // 랜덤 상품으로 이동
     this.props.history.push(`/product/${randomId}`);
@@ -84,7 +90,9 @@ class ProductDetailPage extends Component {
               <Brand>{product.brand}</Brand>
             </div>
             <div>
-              <Button onClick={() => this.setNotInterested(product)}>관심 없음</Button>
+              <Button onClick={() => this.setNotInterested(product)}>
+                관심 없음
+              </Button>
               <Button onClick={this.randomProduct}>랜덤 상품 조회</Button>
             </div>
           </ProductInfo>
