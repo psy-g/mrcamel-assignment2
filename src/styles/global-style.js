@@ -35,6 +35,12 @@ export const GlobalStyle = createGlobalStyle`
     cursor: pointer;
   }
 
+  [tabindex]:focus-visible,
+  button:focus-visible{
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(0,0,0, 0.65);
+  }
+
   .a11y {
     overflow: hidden;
     position: absolute;
