@@ -4,12 +4,15 @@ import { ThemeProvider } from "styled-components/macro";
 import { GlobalStyle } from "styles/global-style";
 
 import { theme } from "styles/theme";
+import ModalSortingSelector from "components/modal_sorting_selector";
+
 
 function App() {
   return (
     <ThemeProvider theme={theme}>
       <Router>
         <GlobalStyle />
+        <ModalSortingSelector />
       </Router>
     </ThemeProvider>
   );
