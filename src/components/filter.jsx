@@ -3,8 +3,8 @@ import styled from "styled-components/macro";
 import { Link } from "react-router-dom";
 
 class Filter extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       data: [],
       checkInterest: true,
