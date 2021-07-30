@@ -9,8 +9,19 @@ class ProductDetailPage extends Component {
     this.state = {
       products: [],
       product: {},
-      undefined: false,
+      noMoreProduct: false,
     };
+  }
+
+  componentDidMount() {
+    fetchData().then((res) => {
+      this.setState({
+        ...this.state,
+        products: res,
+        product: res[this.props.match.params.id - 1],
+      });
+      this.addStorage(res[this.props.match.params.id - 1]);
+    });
   }
 
   addStorage = (product) => {
@@ -20,21 +31,8 @@ class ProductDetailPage extends Component {
       const existIndex = getSelected.findIndex((el) => el.id === product.id);
       getSelected.splice(existIndex, 1);
     }
-    localStorage.setItem(
-      "selected",
-      JSON.stringify([...getSelected, { ...product, interest: true }])
-    );
+    localStorage.setItem("selected", JSON.stringify([...getSelected, { ...product, interest: true }]));
   };
-
-  componentDidMount() {
-    fetchData().then((res) => {
-      this.setState({
-        products: res,
-        product: res[this.props.match.params.id - 1],
-      });
-      this.addStorage(res[this.props.match.params.id - 1]);
-    });
-  }
 
   randomProduct = () => {
     // 관심없음 상품, 현 상품 제외하고 랜덤 상품 id 생성
@@ -43,14 +41,14 @@ class ProductDetailPage extends Component {
     const avaliableProductIds = this.state.products
       .map((product) => product.id)
       .filter((id) => !notInterestedId.includes(id) && id !== currentProductId);
-    const randomId =
-      avaliableProductIds[
-        Math.floor(Math.random() * avaliableProductIds.length)
-      ];
+    const randomId = avaliableProductIds[Math.floor(Math.random() * avaliableProductIds.length)];
 
+    if (avaliableProductIds.length === 0) {
+      this.setState({ ...this.state, noMoreProduct: true });
+    }
     // 랜덤 상품으로 이동
     this.props.history.push(`/product/${randomId}`);
-    this.setState({ product: this.state.products[randomId - 1] });
+    this.setState({ ...this.state, product: this.state.products[randomId - 1] });
     // // localStroage에 조회된 상품 추가
     this.addStorage(this.state.products[randomId - 1]);
   };
@@ -66,7 +64,7 @@ class ProductDetailPage extends Component {
   };
 
   render() {
-    const { product } = this.state;
+    const { product, noMoreProduct } = this.state;
     return (
       <Layout>
         <Container>
@@ -78,20 +76,24 @@ class ProductDetailPage extends Component {
             목록으로 돌아가기
           </OutlineButton>
           <ProductCard>
-            <Logo>image</Logo>
-            <ProductInfo>
-              <Title>{product.title}</Title>
-              <Price>{product.price}원</Price>
-              <div>
-                <Brand>{product.brand}</Brand>
-              </div>
-              <div>
-                <Button onClick={() => this.setNotInterested(product)}>
-                  관심 없음
-                </Button>
-                <Button onClick={this.randomProduct}>랜덤 상품 조회</Button>
-              </div>
-            </ProductInfo>
+            {noMoreProduct ? (
+              <Title>조회 가능한 상품이 없습니다.</Title>
+            ) : (
+              <>
+                <Logo>image</Logo>
+                <ProductInfo>
+                  <Title>{product.title}</Title>
+                  <Price>{product.price}원</Price>
+                  <div>
+                    <Brand>{product.brand}</Brand>
+                  </div>
+                  <div>
+                    <Button onClick={() => this.setNotInterested(product)}>관심 없음</Button>
+                    <Button onClick={this.randomProduct}>랜덤 상품 조회</Button>
+                  </div>
+                </ProductInfo>
+              </>
+            )}
           </ProductCard>
         </Container>
       </Layout>
