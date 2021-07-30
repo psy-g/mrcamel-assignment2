@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import styled from "styled-components";
 import Layout from "components/layout";
+import { fetchData, getNotInterestedId } from "utils/utils";
 
 class ProductDetailPage extends Component {
   constructor(props) {
@@ -8,10 +9,11 @@ class ProductDetailPage extends Component {
     this.state = {
       products: [],
       product: {},
+      undefined: false,
     };
   }
 
-  setStorage = (product) => {
+  addStorage = (product) => {
     const getSelected = JSON.parse(localStorage.getItem("selected"));
     if (getSelected.includes(product)) {
       // getSelected에서 product 제거
@@ -25,27 +27,18 @@ class ProductDetailPage extends Component {
   };
 
   componentDidMount() {
-    fetch("http://localhost:3000/data/product.json")
-      .then((res) => res.json())
-      .then((res) => {
-        this.setState({
-          products: res,
-          product: res[this.props.match.params.id - 1],
-        });
-        this.setStorage(res[this.props.match.params.id - 1]);
+    fetchData().then((res) => {
+      this.setState({
+        products: res,
+        product: res[this.props.match.params.id - 1],
       });
+      this.addStorage(res[this.props.match.params.id - 1]);
+    });
   }
 
   randomProduct = () => {
-    // localStraoge에서 조회된 상품 목록 불러오기
-    const getSelected = JSON.parse(localStorage.getItem("selected"));
     // 관심없음 상품, 현 상품 제외하고 랜덤 상품 id 생성
-    const notInterestedId = getSelected
-      .filter((product) => {
-        return !product.interest;
-      })
-      .map((product) => product.id);
-
+    const notInterestedId = getNotInterestedId();
     const currentProductId = this.state.product.id;
     const avaliableProductIds = this.state.products
       .map((product) => product.id)
@@ -59,7 +52,7 @@ class ProductDetailPage extends Component {
     this.props.history.push(`/product/${randomId}`);
     this.setState({ product: this.state.products[randomId - 1] });
     // // localStroage에 조회된 상품 추가
-    this.setStorage(this.state.products[randomId - 1]);
+    this.addStorage(this.state.products[randomId - 1]);
   };
 
   setNotInterested = (product) => {
