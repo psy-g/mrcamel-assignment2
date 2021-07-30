@@ -1,7 +1,7 @@
-import React, { Component } from "react";
-import styled from "styled-components";
+import React, { Component, createRef } from "react";
+import styled from "styled-components/macro";
 
-class Filter extends Component {
+class filter extends Component {
   constructor() {
     super();
     this.state = {
@@ -10,6 +10,8 @@ class Filter extends Component {
       brand: ["전체"],
       allBtn: true,
     };
+
+    this.checkBoxRef = createRef();
   }
 
   componentDidMount = () => {
@@ -41,47 +43,40 @@ class Filter extends Component {
 
   // 브랜드 필터
   brandFilter = (e) => {
-    // const target = e.target.innerHTML;
-    // const target = e.target.nextSibling.innerHTML;
     const target = e;
     const getSelected = JSON.parse(localStorage.getItem("selected"));
 
     // 전체
     if (target === "전체") {
       this.setState({ data: getSelected, allBtn: true });
+      for (let i = 1; i < this.checkBoxRef.current.children.length; i++) {
+        this.checkBoxRef.current.children[i].children[0].checked = false;
+      }
     } else {
-      let parent = target.target.parentNode.parentNode;
-      let checkbox = parent.getElementsByTagName("input");
+      // let parent = target.target.parentNode.parentNode;
+      // let checkbox = parent.getElementsByTagName("input");
+      let checkbox = this.checkBoxRef.current.getElementsByTagName("input");
 
       let selectedBrand = [];
       for (let ele of checkbox) {
         if (ele.checked === true) selectedBrand.push(ele.nextSibling.innerText);
       }
 
-      // console.log("selectedBrand", selectedBrand);
-
-      // let temp = getSelected.filter((ele) => ele.brand === target);
-      let temp = getSelected.filter(
-        (ele) => selectedBrand.indexOf(ele.brand) !== -1
-      );
-      this.setState({ data: temp, allBtn: false });
+      if (selectedBrand.length > 0) {
+        let temp = getSelected.filter(
+          (ele) => selectedBrand.indexOf(ele.brand) !== -1
+        );
+        this.setState({ data: temp, allBtn: false });
+      } else {
+        this.setState({ data: getSelected, allBtn: true });
+      }
     }
   };
 
   // 관심 필터
   interestFitler = () => {
-    const { checkInterest, data } = this.state;
-    // const getSelected = JSON.parse(localStorage.getItem("selected"));
+    const { checkInterest } = this.state;
 
-    // // 관심 필터 체크 O
-    // if (checkInterest) {
-    //   let temp = getSelected.filter((ele) => ele.interest === true);
-    //   this.setState({ data: temp, checkInterest: false });
-    // }
-    // // 관심 필터 체크 X
-    // else {
-    //   this.setState({ data: getSelected, checkInterest: true });
-    // }
     // 관심 필터 체크 O
     if (checkInterest) {
       this.setState({ checkInterest: false });
@@ -100,7 +95,7 @@ class Filter extends Component {
         <Container>
           <Brand>
             <div>필터: 브랜드</div>
-            <CheckboxContainer>
+            <CheckboxContainer ref={this.checkBoxRef}>
               {(brand || []).map((ele, index) =>
                 index === 0 ? (
                   <label key={index}>
@@ -114,7 +109,6 @@ class Filter extends Component {
                 ) : (
                   <label key={index}>
                     <RemainCheckbox
-                      // onChange={() => this.brandFilter(ele)}
                       onChange={this.brandFilter}
                       allBtn={allBtn}
                     ></RemainCheckbox>
@@ -123,14 +117,9 @@ class Filter extends Component {
                 )
               )}
             </CheckboxContainer>
-            {/* <button>전체</button>
-              <button>구찌</button>
-              <button>루이비통</button>
-              <button>스톤아일랜드</button> */}
           </Brand>
           <Interest>
             <div>필터: 관심</div>
-            {/* <button onClick={this.interestFitler}>관심없는 상품 숨기기</button> */}
             <CheckboxContainer>
               <StyledCheckbox onClick={this.interestFitler}></StyledCheckbox>
               <span>관심없는 상품 숨기기</span>
@@ -164,14 +153,14 @@ class Filter extends Component {
   }
 }
 
-export default Filter;
+export default filter;
 
 // filter container
 const Container = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  border: 2px #848484 solid;
+  border: 3px #848484 solid;
   font-size: 3rem;
 `;
 
@@ -203,28 +192,25 @@ const Interest = styled.div`
 const CheckboxContainer = styled.div`
   display: inline-block;
   vertical-align: middle;
+
+  span {
+    font-size: 2rem;
+  }
 `;
 
 const StyledCheckbox = styled.input.attrs((props) => ({
-  type: "checkbox",
-  // defaultChecked: props.allBtn ? true : false,
-  // checked: props.allBtn ? true : false,
-  // defaultChecked: false,
-}))`
-  display: inline-block;
-  width: 16px;
-  height: 16px;
-  border-radius: 3px;
-  transition: all 150ms;
-`;
-
-const RemainCheckbox = styled.input.attrs((props) => ({
   type: "checkbox",
   // checked: props.allBtn ? false : true,
 }))`
   display: inline-block;
   width: 16px;
   height: 16px;
-  border-radius: 3px;
-  transition: all 150ms;
+`;
+
+const RemainCheckbox = styled.input.attrs({
+  type: "checkbox",
+})`
+  display: inline-block;
+  width: 16px;
+  height: 16px;
 `;
