@@ -98,8 +98,7 @@ class Modal extends Component {
 
 	render() {
 		const {isOpen} = this.state;
-		const {trigger, id, children} = this.props;
-		const uuid = `modal__id-${id}`;
+		const {trigger, label, children} = this.props;
 
 		return (
 			<>
@@ -117,7 +116,7 @@ class Modal extends Component {
 								tabIndex="-1"
 								role="dialog"
 								aria-modal="true"
-								aria-labelledby={uuid}
+								aria-label={label}
 								onClick={this.handleClose}
 							>
 								{children}

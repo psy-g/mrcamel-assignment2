@@ -38,7 +38,7 @@ class ModalSortingSelector extends Component {
 
 		return (
 			<Modal
-				id="sortingSelector"
+				label="상품정렬 옵션 선택 모달"
 				trigger={
 					({handleOpen, isOpen}) => (
 						<OpenerBtn

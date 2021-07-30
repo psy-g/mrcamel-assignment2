@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 
+import Layout from 'components/layout';
 import Product from "components/product/Product";
 import Modal from "components/modal/Modal";
 
@@ -17,8 +18,8 @@ const ProductListTitle = styled.p`
 `;
 
 class Home extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       products: [],
     };
@@ -33,7 +34,7 @@ class Home extends Component {
     const { products } = this.state;
 
     return (
-      <div>
+      <Layout>
         <ListWrap>
           <ProductListTitle>상품 목록</ProductListTitle>
           {products.map((product) => (
@@ -47,7 +48,7 @@ class Home extends Component {
             </Link>
           ))}
         </ListWrap>
-      </div>
+      </Layout>
     );
   }
 }
