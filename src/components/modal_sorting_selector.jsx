@@ -3,6 +3,7 @@ import styled from 'styled-components/macro';
 
 import Modal from 'components/modal';
 import SortingItem from "components/sorting_item";
+import {SORTING_OPTIONS} from "utils/constant";
 
 const OpenerBtn = styled.button`
 	width: 10rem;
@@ -13,28 +14,15 @@ const SortingList = styled.ul`
 	width: 100%;
 `
 
-const sortingOptions = ['최근 조회 순', '낮은 가격 순'];
 
 class ModalSortingSelector extends Component {
 
 	constructor(props) {
 		super(props);
-		this.state ={
-			currentSortingOpt: sortingOptions[0],
-		};
-	}
-
-	handleSelectSortingOpt = e =>  {
-		const target = e.target;
-		const nodeName = target.nodeName.toLowerCase();
-
-		if (nodeName === 'button') {
-			this.setState({currentSortingOpt: target.innerText});
-		}
 	}
 
 	render() {
-		const { currentSortingOpt } = this.state;
+		const { currentSortingOpt, handleSelectSortingOpt } = this.props;
 
 		return (
 			<Modal
@@ -51,9 +39,9 @@ class ModalSortingSelector extends Component {
 					)
 				}
 			>
-				<SortingList onClick={this.handleSelectSortingOpt}>
+				<SortingList onClick={handleSelectSortingOpt}>
 					{
-						sortingOptions.map(item => (
+						SORTING_OPTIONS.map(item => (
 							<SortingItem
 								key={item}
 								label={item}
