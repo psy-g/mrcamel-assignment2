@@ -15,12 +15,10 @@ class ProductDetailPage extends Component {
       .then((res) => res.json())
       .then((res) => {
         this.setState({ products: res, product: res[this.props.match.params.id - 1] });
-      })
-      .then(() => {
-        // localStraoge에 조회된 상품 추가
-        const getSelected = JSON.parse(localStorage.getItem("selected"));
-        localStorage.setItem("selected", JSON.stringify([...getSelected, this.state.product]));
       });
+    // localStraoge에 조회된 상품 추가
+    const getSelected = JSON.parse(localStorage.getItem("selected"));
+    localStorage.setItem("selected", JSON.stringify([...getSelected, this.state.product]));
   }
 
   randomProduct = () => {
@@ -42,9 +40,19 @@ class ProductDetailPage extends Component {
     // 랜덤 상품으로 이동
     this.props.history.push(`/product/${randomId}`);
     this.setState({ product: this.state.products[randomId - 1] });
+    // // localStroage에 조회된 상품 추가
+    // localStorage.setItem("selected", JSON.stringify([...getSelected, this.state.product]));
+  };
 
-    // 랜덤 상품 localStroage에 추가
-    localStorage.setItem("selected", JSON.stringify([...getSelected, this.state.product]));
+  setNotInterested = (product) => {
+    // localStrage에 조회된 상품에서 상품을 조회 -> 상품 제거 -> interest: false 로 변경 후 상품 다시 추가
+    const getSelected = JSON.parse(localStorage.getItem("selected"));
+    getSelected.pop();
+    getSelected.push({ ...product, interest: false });
+    console.log(getSelected);
+    localStorage.setItem("selected", JSON.stringify(getSelected));
+
+    this.randomProduct();
   };
 
   render() {
@@ -67,7 +75,7 @@ class ProductDetailPage extends Component {
               <Brand>{product.brand}</Brand>
             </div>
             <div>
-              <Button onClick={this.randomProduct}>관심 없음</Button>
+              <Button onClick={() => this.setNotInterested(product)}>관심 없음</Button>
               <Button onClick={this.randomProduct}>랜덤 상품 조회</Button>
             </div>
           </ProductInfo>
