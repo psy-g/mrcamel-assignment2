@@ -1,7 +1,8 @@
 import React, { Component, createRef } from "react";
 import styled from "styled-components/macro";
+import { Link } from "react-router-dom";
 
-class filter extends Component {
+class Filter extends Component {
   constructor() {
     super();
     this.state = {
@@ -126,7 +127,7 @@ class filter extends Component {
             </CheckboxContainer>
           </Interest>
         </Container>
-        {checkInterest ? (
+        {/* {checkInterest ? (
           <div>
             {(data || []).map((ele, index) => (
               <div key={index}>
@@ -147,13 +148,44 @@ class filter extends Component {
                 )
             )}
           </div>
+        )} */}
+        {checkInterest ? (
+          <>
+            {(data || []).map((ele, index) => (
+              <Link to={`/detail/${ele.id}`} key={index}>
+                <ProductWrap>
+                  <ProductContent>Title: {ele.title}</ProductContent>
+                  <ProductContent>Brand: {ele.brand}</ProductContent>
+                  <ProductContent>Price: {ele.price}</ProductContent>
+                  {!ele.interest && (
+                    <ProductInteresting>관심없음</ProductInteresting>
+                  )}
+                </ProductWrap>
+              </Link>
+            ))}
+          </>
+        ) : (
+          <>
+            {(data || []).map(
+              (ele, index) =>
+                ele.interest === true && (
+                  <Link to={`/detail/${ele.id}`} key={index}>
+                    <ProductWrap>
+                      <ProductContent>Title: {ele.title}</ProductContent>
+                      <ProductContent>Brand: {ele.brand}</ProductContent>
+                      <ProductContent>Price: {ele.price}</ProductContent>
+                    </ProductWrap>
+                  </Link>
+                )
+            )}
+          </>
         )}
       </>
     );
   }
 }
 
-export default filter;
+export default Filter;
 
 // filter container
 const Container = styled.div`
@@ -213,4 +245,26 @@ const RemainCheckbox = styled.input.attrs({
   display: inline-block;
   width: 16px;
   height: 16px;
+`;
+
+const ProductWrap = styled.div`
+  position: relative;
+  width: 100%;
+  height: 100%;
+  padding: 1rem;
+  background-color: #dfe6ed;
+  border-radius: 5px;
+  margin-top: 2rem;
+`;
+
+const ProductContent = styled.p`
+  font-size: 2rem;
+  margin: 0.5rem;
+`;
+
+const ProductInteresting = styled.p`
+  position: absolute;
+  font-size: 3rem;
+  right: 30px;
+  top: 35px;
 `;
