@@ -6,7 +6,7 @@ class Filter extends Component {
     super(props);
     this.state = {
       allBtn: true,
-    }
+    };
     this.checkBoxRef = createRef();
   }
 
@@ -53,9 +53,8 @@ class Filter extends Component {
     }
   };
 
-
   render() {
-    const {brand} = this.props;
+    const { brand } = this.props;
 
     return (
       <Container>

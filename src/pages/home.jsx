@@ -22,7 +22,6 @@ class Home extends Component {
         this.setState({ products: res });
         localStorage.setItem("items", JSON.stringify(this.state.products));
       });
-    JSON.parse(localStorage.getItem("d"));
   };
 
   render() {
