@@ -1,4 +1,4 @@
-import React, { Component, createRef } from "react";
+import React, { Component } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 
@@ -26,11 +26,56 @@ class RecentList extends Component {
     }
   };
 
+
   changeData = (change) => {
     this.setState((prevState) => ({
       data: change,
     }));
   };
+
+  componentDidMount = () => {
+    fetch("http://localhost:3000/data/product.json")
+      .then((res) => res.json())
+      .then((res) => {
+        let temp = res.filter((ele) => ele.id % 10 === 0); // 필터 작업용
+        let temp2 = temp.map((ele, index) =>
+          index % 2 === 0
+            ? Object.assign(ele, { interest: true })
+            : Object.assign(ele, { interest: false })
+        ); // 관심 작업용
+        // localStorage.setItem("selected", JSON.stringify(temp2));
+        // const getSelected = JSON.parse(localStorage.getItem("selected"));
+        this.setState({ data: temp });
+        let arr = [];
+        let temp3 = this.state.data.filter(
+          (ele) => arr.indexOf(ele.brand) === -1 && arr.push(ele.brand)
+        );
+        let test = [];
+        temp3.forEach((ele) => test.push(ele.brand));
+        this.setState({ brand: [...this.state.brand, ...test] });
+      });
+  };
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.currentSortingOpt !== prevState.currentSortingOpt) {
+      switch(this.state.currentSortingOpt) {
+        case '최근 조회 순':
+          //TODO
+           return;
+
+        case '낮은 가격 순':
+          const sortedLowPrice = [...this.state.data].sort((a,b) =>
+            a[1].price - b[1].price
+          );
+          this.setState({data: sortedLowPrice});
+          return;
+
+        default:
+          //TODO
+        	return;
+      }
+    }
+  }
 
   changeInterest = (change) => {
     this.setState((prevState) => ({
@@ -38,28 +83,6 @@ class RecentList extends Component {
     }));
   };
 
-  componentDidMount = () => {
-    //     fetch("http://localhost:3000/data/product.json")
-    //       .then((res) => res.json())
-    //       .then((res) => {
-    //         let temp = res.filter((ele) => ele.id % 10 === 0); // 필터 작업용
-    //         let temp2 = temp.map((ele, index) =>
-    //           index % 2 === 0
-    //             ? Object.assign(ele, { interest: true })
-    //             : Object.assign(ele, { interest: false })
-    //         ); // 관심 작업용
-    //         localStorage.setItem("selected", JSON.stringify(temp2));
-    // const getSelected = JSON.parse(localStorage.getItem("selected"));
-    // this.setState({ data: getSelected });
-    // let arr = [];
-    // let temp3 = getSelected.filter(
-    //   (ele) => arr.indexOf(ele.brand) === -1 && arr.push(ele.brand)
-    // );
-    // let test = [];
-    // temp3.forEach((ele) => test.push(ele.brand));
-    // this.setState({ brand: [...this.state.brand, ...test] });
-    //   });
-  };
 
   render() {
     const { data, brand, checkInterest } = this.state;
