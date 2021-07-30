@@ -11,7 +11,6 @@ class ProductDetailPage extends Component {
   }
 
   componentDidMount() {
-    // make fetch request
     fetch("http://localhost:3000/data/product.json")
       .then((res) => res.json())
       .then((res) => this.setState({ products: res, product: res[this.props.match.params.id - 1] }));
@@ -22,9 +21,7 @@ class ProductDetailPage extends Component {
 
     const avaliableProductIds = this.state.products.map((product) => product.id);
     avaliableProductIds.splice(avaliableProductIds.indexOf(currentProductId), 1);
-
     const randomId = avaliableProductIds[Math.floor(Math.random() * avaliableProductIds.length)];
-    console.log(avaliableProductIds, randomId);
 
     this.props.history.push(`/product/${randomId}`);
 
@@ -35,7 +32,13 @@ class ProductDetailPage extends Component {
     const { product } = this.state;
     return (
       <div>
-        <OutlineButton>목록으로 돌아가기</OutlineButton>
+        <OutlineButton
+          onClick={() => {
+            this.props.history.push("/");
+          }}
+        >
+          목록으로 돌아가기
+        </OutlineButton>
         <ProductCard>
           <Logo>image</Logo>
           <ProductInfo>
