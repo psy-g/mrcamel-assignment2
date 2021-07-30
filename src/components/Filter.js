@@ -42,7 +42,7 @@ class Filter extends Component {
 
   // 관심 필터
   interestFitler = () => {
-    console.log("관심");
+    console.log("관심.");
   };
 
   render() {
