@@ -5,10 +5,9 @@ import { Link } from "react-router-dom";
 import Layout from "components/layout";
 import Filter from "components/filter";
 import ModalSortingSelector from "components/modal_sorting_selector";
-import {SORTING_OPTIONS} from "utils/constant";
+import { SORTING_OPTIONS } from "utils/constant";
 
 class RecentList extends Component {
-
   constructor(props) {
     super(props);
     this.state = {
@@ -19,42 +18,51 @@ class RecentList extends Component {
     };
   }
 
-  handleSelectSortingOpt = e =>  {
+  handleSelectSortingOpt = (e) => {
     const target = e.target;
     const nodeName = target.nodeName.toLowerCase();
-    if (nodeName === 'button') {
-      this.setState({currentSortingOpt: target.innerText});
+    if (nodeName === "button") {
+      this.setState({ currentSortingOpt: target.innerText });
     }
-  }
+  };
 
-  // componentDidMount = () => {
-  //   fetch("http://localhost:3000/data/product.json")
-  //     .then((res) => res.json())
-  //     .then((res) => {
-  //       let temp = res.filter((ele) => ele.id % 10 === 0); // 필터 작업용
-  //       let temp2 = temp.map((ele, index) =>
-  //         index % 2 === 0
-  //           ? Object.assign(ele, { interest: true })
-  //           : Object.assign(ele, { interest: false })
-  //       ); // 관심 작업용
-  //       localStorage.setItem("selected", JSON.stringify(temp2));
-  //       const getSelected = JSON.parse(localStorage.getItem("selected"));
-  //       this.setState({ data: getSelected });
-  //       let arr = [];
-  //       let temp3 = getSelected.filter(
-  //         (ele) => arr.indexOf(ele.brand) === -1 && arr.push(ele.brand)
-  //       );
-  //       let test = [];
-  //       temp3.forEach((ele) => test.push(ele.brand));
-  //       this.setState({ brand: [...this.state.brand, ...test] });
-  //     });
-  // };
+  changeData = (change) => {
+    this.setState((prevState) => ({
+      data: change,
+    }));
+  };
 
-  // 브랜드 필터
+  changeInterest = (change) => {
+    this.setState((prevState) => ({
+      checkInterest: change,
+    }));
+  };
 
+  componentDidMount = () => {
+    //     fetch("http://localhost:3000/data/product.json")
+    //       .then((res) => res.json())
+    //       .then((res) => {
+    //         let temp = res.filter((ele) => ele.id % 10 === 0); // 필터 작업용
+    //         let temp2 = temp.map((ele, index) =>
+    //           index % 2 === 0
+    //             ? Object.assign(ele, { interest: true })
+    //             : Object.assign(ele, { interest: false })
+    //         ); // 관심 작업용
+    //         localStorage.setItem("selected", JSON.stringify(temp2));
+    // const getSelected = JSON.parse(localStorage.getItem("selected"));
+    // this.setState({ data: getSelected });
+    // let arr = [];
+    // let temp3 = getSelected.filter(
+    //   (ele) => arr.indexOf(ele.brand) === -1 && arr.push(ele.brand)
+    // );
+    // let test = [];
+    // temp3.forEach((ele) => test.push(ele.brand));
+    // this.setState({ brand: [...this.state.brand, ...test] });
+    //   });
+  };
 
   render() {
-    const { data, brand, allBtn, checkInterest } = this.state;
+    const { data, brand, checkInterest } = this.state;
 
     return (
       <Layout>
@@ -63,12 +71,11 @@ class RecentList extends Component {
           <Filter
             data={data}
             brand={brand}
-            allBtn={allBtn}
-            brandFilter={this.brandFilter}
-            interestFitler={this.interestFitler}
-            checkBoxRef={this.checkBoxRef}
+            changeData={this.changeData}
+            checkInterest={checkInterest}
+            changeInterest={this.changeInterest}
           />
-          <ModalSortingSelector 
+          <ModalSortingSelector
             currentSortingOpt={this.state.currentSortingOpt}
             handleSelectSortingOpt={this.handleSelectSortingOpt}
           />
