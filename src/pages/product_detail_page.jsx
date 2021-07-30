@@ -1,7 +1,7 @@
-import React, { Component } from "react";
-import styled from "styled-components";
-import Layout from "components/layout";
-import { fetchData, getNotInterestedId } from "utils/utils";
+import React, { Component } from 'react';
+import styled from 'styled-components';
+import Layout from 'components/layout';
+import { fetchData, getNotInterestedId, getSelected, setSelected } from 'utils/utils';
 
 class ProductDetailPage extends Component {
   constructor(props) {
@@ -14,6 +14,7 @@ class ProductDetailPage extends Component {
   }
 
   componentDidMount() {
+    const fetchProducts = fetch('');
     fetchData().then((res) => {
       this.setState({
         ...this.state,
@@ -25,13 +26,13 @@ class ProductDetailPage extends Component {
   }
 
   addStorage = (product) => {
-    const getSelected = JSON.parse(localStorage.getItem("selected"));
-    if (getSelected.includes(product)) {
+    const selected = getSelected();
+    if (selected.includes(product)) {
       // getSelected에서 product 제거
-      const existIndex = getSelected.findIndex((el) => el.id === product.id);
-      getSelected.splice(existIndex, 1);
+      const existIndex = selected.findIndex((el) => el.id === product.id);
+      selected.splice(existIndex, 1);
     }
-    localStorage.setItem("selected", JSON.stringify([...getSelected, { ...product, interest: true }]));
+    setSelected([...selected, { ...product, interest: true }]);
   };
 
 
@@ -71,10 +72,9 @@ class ProductDetailPage extends Component {
 
   setNotInterested = (product) => {
     // localStrage에 조회된 상품에서 상품을 조회 -> 상품 제거 -> interest: false 로 변경 후 상품 다시 추가
-    const getSelected = JSON.parse(localStorage.getItem("selected"));
-    const newSelected = getSelected.filter((el) => el.id !== product.id);
+    const newSelected = getSelected().filter((el) => el.id !== product.id);
     newSelected.push({ ...product, interest: false });
-    localStorage.setItem("selected", JSON.stringify(newSelected));
+    setSelected(newSelected);
 
     this.randomProduct();
   };
@@ -86,7 +86,7 @@ class ProductDetailPage extends Component {
         <Container>
           <OutlineButton
             onClick={() => {
-              this.props.history.push("/");
+              this.props.history.push('/');
             }}
           >
             목록으로 돌아가기
