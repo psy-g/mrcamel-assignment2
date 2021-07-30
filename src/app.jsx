@@ -1,18 +1,24 @@
 import React from "react";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { ThemeProvider } from "styled-components/macro";
 import { GlobalStyle } from "styles/global-style";
 
-import { theme } from "styles/theme";
-import ModalSortingSelector from "components/modal_sorting_selector";
+import Nav from "components/nav/Nav";
+import Home from "components/home/Home";
+import Modal from "components/modal/Modal";
 
+import { theme } from "styles/theme";
 
 function App() {
   return (
     <ThemeProvider theme={theme}>
       <Router>
         <GlobalStyle />
-        <ModalSortingSelector />
+        <Nav />
+        <Switch>
+          <Route exact path="/" component={Home} />
+        </Switch>
       </Router>
     </ThemeProvider>
   );
