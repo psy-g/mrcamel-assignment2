@@ -1,8 +1,8 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import styled from "styled-components";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 
-import Layout from 'components/layout';
+import Layout from "components/layout";
 import Product from "components/product/product";
 import Modal from "components/modal/modal";
 
@@ -18,21 +18,21 @@ const ProductListTitle = styled.p`
 `;
 
 class Home extends Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			products: [],
-		};
-	}
+  constructor(props) {
+    super(props);
+    this.state = {
+      products: [],
+    };
+  }
 
-	componentDidMount = () => {
-		fetch(API)
-			.then((res) => res.json())
-			.then((res) => this.setState({products: res}));
-	};
+  componentDidMount = () => {
+    fetch(API)
+      .then((res) => res.json())
+      .then((res) => this.setState({ products: res }));
+  };
 
-	render() {
-		const {products} = this.state;
+  render() {
+    const { products } = this.state;
 
 		return (
 			<Layout>
