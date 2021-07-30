@@ -1,9 +1,9 @@
-import React, { Component } from "react";
+import React, {Component} from "react";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import {Link} from "react-router-dom";
 
 import Layout from 'components/layout';
-import Product from "components/product/Product";
+import Product from "components/product/product";
 import Modal from "components/modal/Modal";
 
 const API = "http://localhost:3000/data/product.json";
@@ -18,39 +18,52 @@ const ProductListTitle = styled.p`
 `;
 
 class Home extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      products: [],
-    };
-  }
+	constructor(props) {
+		super(props);
+		this.state = {
+			products: [],
+		};
+	}
 
-  componentDidMount = () => {
-    fetch(API)
-      .then((res) => res.json())
-      .then((res) => this.setState({ products: res }));
-  };
-  render() {
-    const { products } = this.state;
+	componentDidMount = () => {
+		fetch(API)
+			.then((res) => res.json())
+			.then((res) => this.setState({products: res}));
+	};
 
-    return (
-      <Layout>
-        <ListWrap>
-          <ProductListTitle>상품 목록</ProductListTitle>
-          {products.map((product) => (
-            <Link to={`/detail/${product.id}`} key={product.id}>
-              <Product
-                title={product.title}
-                barnd={product.brand}
-                price={product.price}
-                id={product.id}
-              />
-            </Link>
-          ))}
-        </ListWrap>
-      </Layout>
-    );
-  }
+	render() {
+		const {products} = this.state;
+
+		return (
+			<Layout>
+				<ListWrap>
+					<ProductListTitle>상품 목록</ProductListTitle>
+					{products.map((product) =>
+						!product.check ? (
+							<Link to={`/detail/${product.id}`} key={product.id}>
+								<Product
+									title={product.title}
+									brand={product.brand}
+									price={product.price}
+									id={product.id}
+								/>
+							</Link>
+						) : (
+							<Product
+								key={product.id}
+								title={product.title}
+								brand={product.brand}
+								price={product.price}
+								check={product.check}
+								openModal={this.openModal}
+								setState={this.setState}
+							/>
+						)
+					)}
+				</ListWrap>
+			</Layout>
+		);
+	}
 }
 
 export default Home;

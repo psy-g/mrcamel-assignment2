@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import styled from "styled-components";
 
 import Layout from "components/layout";
-import Filter from "components/Filter";
+import Filter from "components/filter";
 import ModalSortingSelector from "components/modal_sorting_selector";
 
 class RecentList extends Component {
