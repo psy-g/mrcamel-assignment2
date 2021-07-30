@@ -51,7 +51,7 @@ class ProductDetailPage extends Component {
     this.props.history.push(`/product/${randomId}`);
     this.setState({ product: this.state.products[randomId - 1] });
     // // localStroage에 조회된 상품 추가
-    this.setStorage(this.state.product);
+    this.setStorage(this.state.products[randomId - 1]);
   };
 
   setNotInterested = (product) => {
