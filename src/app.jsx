@@ -3,10 +3,8 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { ThemeProvider } from "styled-components/macro";
 import { GlobalStyle } from "styles/global-style";
 
-import Nav from "components/nav/Nav";
-import Home from "components/home/Home";
-import Modal from "components/modal/Modal";
-
+import Nav from "components/nav/nav";
+import Home from "components/pages/home/home";
 import { theme } from "styles/theme";
 
 function App() {

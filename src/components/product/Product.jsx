@@ -1,5 +1,7 @@
 import React, { Component } from "react";
-import styled from "styled-components";
+import styled from "styled-components/macro";
+
+import Modal from "components/modal/modal";
 
 const ProductWrap = styled.div`
   position: relative;
@@ -9,6 +11,7 @@ const ProductWrap = styled.div`
   background-color: #dfe6ed;
   border-radius: 5px;
   margin-top: 2rem;
+  cursor: ${(props) => props.check && "pointer"};
 `;
 
 const ProductContent = styled.p`
@@ -26,11 +29,11 @@ const ProductInteresting = styled.p`
 class Product extends Component {
   render() {
     return (
-      <ProductWrap>
+      <ProductWrap check={this.props.check}>
         <ProductContent>Title: {this.props.title}</ProductContent>
         <ProductContent>Brand: {this.props.brand}</ProductContent>
         <ProductContent>Price: {this.props.price}</ProductContent>
-        {this.props.id && <ProductInteresting>관심없음</ProductInteresting>}
+        {this.props.check && <ProductInteresting>관심없음</ProductInteresting>}
       </ProductWrap>
     );
   }

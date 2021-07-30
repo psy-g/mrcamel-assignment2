@@ -1,9 +1,8 @@
 import React, { Component } from "react";
-import styled from "styled-components";
+import styled from "styled-components/macro";
 import { Link } from "react-router-dom";
 
-import Product from "components/product/Product";
-import Modal from "components/modal/Modal";
+import Product from "components/product/product";
 
 const API = "http://localhost:3000/data/product.json";
 
@@ -21,6 +20,7 @@ class Home extends Component {
     super();
     this.state = {
       products: [],
+      openModal: false,
     };
   }
 
@@ -33,21 +33,31 @@ class Home extends Component {
     const { products } = this.state;
 
     return (
-      <div>
-        <ListWrap>
-          <ProductListTitle>상품 목록</ProductListTitle>
-          {products.map((product) => (
+      <ListWrap>
+        <ProductListTitle>상품 목록</ProductListTitle>
+        {products.map((product) =>
+          !product.check ? (
             <Link to={`/detail/${product.id}`} key={product.id}>
               <Product
                 title={product.title}
-                barnd={product.brand}
+                brand={product.brand}
                 price={product.price}
                 id={product.id}
               />
             </Link>
-          ))}
-        </ListWrap>
-      </div>
+          ) : (
+            <Product
+              key={product.id}
+              title={product.title}
+              brand={product.brand}
+              price={product.price}
+              check={product.check}
+              openModal={this.openModal}
+              setState={this.setState}
+            />
+          )
+        )}
+      </ListWrap>
     );
   }
 }
