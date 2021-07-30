@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import styled from "styled-components";
+import styled from "styled-components/macro";
 
 const ModalWrap = styled.div`
   display: flex;
@@ -42,14 +42,13 @@ const ModalContent = styled.p`
 
 class Modal extends Component {
   render() {
-    const closeButton = () => {};
     return (
       <ModalWrap>
         <ModalContentWrap>
           <ModalHeader>
-            <CloseButton onClick={closeButton}>x</CloseButton>
+            <CloseButton>x</CloseButton>
           </ModalHeader>
-          <ModalContent>관련없는 상품입니다!</ModalContent>
+          <ModalContent>관심없는 상품입니다!</ModalContent>
         </ModalContentWrap>
       </ModalWrap>
     );
