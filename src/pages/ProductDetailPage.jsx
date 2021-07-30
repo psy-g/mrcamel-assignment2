@@ -2,17 +2,34 @@ import React, { Component } from "react";
 import styled from "styled-components";
 
 class ProductDetailPage extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      product: {},
+    };
+  }
+
+  componentDidMount() {
+    // make fetch request
+    fetch("http://localhost:3000/data/product.json")
+      .then((res) => res.json())
+      .then((res) => this.setState({ products: res, product: res[this.props.match.params.id - 1] }));
+    // localStorage에서 notIntersted 정보 받아오기
+    // localStorage에 현재 상품을 조회한 상품으로 추가 sendLooked
+  }
+
   render() {
+    const { product } = this.state;
     return (
       <div>
         <OutlineButton>목록으로 돌아가기</OutlineButton>
         <ProductCard>
           <Logo>image</Logo>
           <ProductInfo>
-            <h2>스톤아일랜드 나일론메탈 셔츠 18ss 정품m사이즈</h2>
-            <h2>390000원</h2>
+            <h2>{product.title}</h2>
+            <h2>{product.price}원</h2>
             <div>
-              <Brand>스톤아일랜드</Brand>
+              <Brand>{product.brand}</Brand>
             </div>
             <div>
               <Button>관심 없음</Button>
@@ -26,6 +43,23 @@ class ProductDetailPage extends Component {
 }
 
 export default ProductDetailPage;
+
+const ProductCard = styled.div`
+  display: flex;
+  flex: 1 auto;
+  justify-content: space-between;
+
+  padding: 30px;
+
+  border: 1px blue solid;
+  width: 800px;
+
+  h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    text-align: right;
+  }
+`;
 
 const ProductInfo = styled.div`
   display: flex;
@@ -54,23 +88,6 @@ const Logo = styled.div`
   justify-content: center;
 
   font-size: 5rem;
-`;
-
-const ProductCard = styled.div`
-  display: flex;
-  flex: 1 auto;
-  justify-content: space-between;
-
-  padding: 30px;
-
-  border: 1px blue solid;
-  width: 800px;
-
-  h2 {
-    font-size: 2rem;
-    font-weight: 700;
-    text-align: right;
-  }
 `;
 
 const Button = styled.button`
