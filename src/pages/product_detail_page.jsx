@@ -44,7 +44,7 @@ class ProductDetailPage extends Component {
           products: res,
           product: res[this.props.match.params.id - 1],
         });
-        this.setStorage(res[this.props.match.params.id - 1]);
+        this.addStorage(res[this.props.match.params.id - 1]);
       });
   }
 
