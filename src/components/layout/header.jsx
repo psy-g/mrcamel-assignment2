@@ -4,11 +4,36 @@ import styled from "styled-components";
 
 import Logo from "assets/images/pc_img.png";
 
+export class Header extends Component {
+  render() {
+    return (
+      <Wrap>
+        <StyledLogo to="/" logo={Logo}>
+          <h1 className="a11y">Mr.carmel</h1>
+        </StyledLogo>
+        <StyledNav>
+          <NavList>
+            <NavItem>
+              <StyledLink to="/">상품목록</StyledLink>
+            </NavItem>
+            <NavItem>
+              <StyledLink to="/recentList">조회이력</StyledLink>
+            </NavItem>
+          </NavList>
+        </StyledNav>
+      </Wrap>
+    );
+  }
+}
 const Wrap = styled.header`
   position: fixed;
   top: 0;
+<<<<<<< HEAD
+  width: 100%;
+=======
   /* width: 100%; */
   width: 100vw;
+>>>>>>> b0e5241a25324f954580826059d739c5bc962157
   display: flex;
   justify-content: space-between;
   padding: 2rem 4rem;
@@ -43,6 +68,8 @@ const StyledLink = styled(Link)`
   align-items: center;
   height: 100%;
 `;
+<<<<<<< HEAD
+=======
 
 export class Header extends Component {
   render() {
@@ -66,4 +93,5 @@ export class Header extends Component {
   }
 }
 
+>>>>>>> b0e5241a25324f954580826059d739c5bc962157
 export default Header;

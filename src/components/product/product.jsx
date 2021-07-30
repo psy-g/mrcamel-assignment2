@@ -1,8 +1,20 @@
 import React, { Component } from "react";
 import styled from "styled-components/macro";
 
-import Modal from "components/modal/modal";
-
+class Product extends Component {
+  render() {
+    return (
+      <ProductWrap check={this.props.check}>
+        <ProductContent>Title: {this.props.title}</ProductContent>
+        <ProductContent>Brand: {this.props.brand}</ProductContent>
+        <ProductContent>Price: {this.props.price}</ProductContent>
+        {!this.props.interest && (
+          <ProductInteresting>관심없음</ProductInteresting>
+        )}
+      </ProductWrap>
+    );
+  }
+}
 const ProductWrap = styled.div`
   position: relative;
   width: 100%;
@@ -25,18 +37,4 @@ const ProductInteresting = styled.p`
   right: 30px;
   top: 35px;
 `;
-
-class Product extends Component {
-  render() {
-    return (
-      <ProductWrap check={this.props.check}>
-        <ProductContent>Title: {this.props.title}</ProductContent>
-        <ProductContent>Brand: {this.props.brand}</ProductContent>
-        <ProductContent>Price: {this.props.price}</ProductContent>
-        {this.props.check && <ProductInteresting>관심없음</ProductInteresting>}
-      </ProductWrap>
-    );
-  }
-}
-
 export default Product;

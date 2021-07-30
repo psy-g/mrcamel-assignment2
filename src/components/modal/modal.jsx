@@ -1,6 +1,21 @@
 import React, { Component } from "react";
 import styled from "styled-components/macro";
 
+class Modal extends Component {
+  render() {
+    return (
+      <ModalWrap>
+        <ModalContentWrap>
+          <ModalHeader>
+            <CloseButton>x</CloseButton>
+          </ModalHeader>
+          <ModalContent>관심없는 상품입니다!</ModalContent>
+        </ModalContentWrap>
+      </ModalWrap>
+    );
+  }
+}
+
 const ModalWrap = styled.div`
   display: flex;
   position: absolute;
@@ -39,20 +54,4 @@ const ModalContent = styled.p`
   background-color: #eee;
   font-size: 2rem;
 `;
-
-class Modal extends Component {
-  render() {
-    return (
-      <ModalWrap>
-        <ModalContentWrap>
-          <ModalHeader>
-            <CloseButton>x</CloseButton>
-          </ModalHeader>
-          <ModalContent>관심없는 상품입니다!</ModalContent>
-        </ModalContentWrap>
-      </ModalWrap>
-    );
-  }
-}
-
 export default Modal;
