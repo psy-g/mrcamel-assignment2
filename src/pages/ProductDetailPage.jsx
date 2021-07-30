@@ -5,6 +5,7 @@ class ProductDetailPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      products: [],
       product: {},
     };
   }
@@ -14,9 +15,21 @@ class ProductDetailPage extends Component {
     fetch("http://localhost:3000/data/product.json")
       .then((res) => res.json())
       .then((res) => this.setState({ products: res, product: res[this.props.match.params.id - 1] }));
-    // localStorage에서 notIntersted 정보 받아오기
-    // localStorage에 현재 상품을 조회한 상품으로 추가 sendLooked
   }
+
+  randomProduct = () => {
+    const currentProductId = this.state.product.id;
+
+    const avaliableProductIds = this.state.products.map((product) => product.id);
+    avaliableProductIds.splice(avaliableProductIds.indexOf(currentProductId), 1);
+
+    const randomId = avaliableProductIds[Math.floor(Math.random() * avaliableProductIds.length)];
+    console.log(avaliableProductIds, randomId);
+
+    this.props.history.push(`/product/${randomId}`);
+
+    this.setState({ product: this.state.products[randomId - 1] });
+  };
 
   render() {
     const { product } = this.state;
@@ -32,8 +45,8 @@ class ProductDetailPage extends Component {
               <Brand>{product.brand}</Brand>
             </div>
             <div>
-              <Button>관심 없음</Button>
-              <Button>랜덤 상품 조회</Button>
+              <Button onClick={this.randomProduct}>관심 없음</Button>
+              <Button onClick={this.randomProduct}>랜덤 상품 조회</Button>
             </div>
           </ProductInfo>
         </ProductCard>

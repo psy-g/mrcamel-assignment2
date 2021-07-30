@@ -12,7 +12,7 @@ function App() {
     <ThemeProvider theme={theme}>
       <Router>
         <GlobalStyle />
-        <Route path="/product/:id" component={ProductDetailPage} />
+        <Route exact path="/product/:id" component={ProductDetailPage} />
       </Router>
     </ThemeProvider>
   );
