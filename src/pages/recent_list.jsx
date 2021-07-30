@@ -5,18 +5,29 @@ import { Link } from "react-router-dom";
 import Layout from "components/layout";
 import Filter from "components/filter";
 import ModalSortingSelector from "components/modal_sorting_selector";
+import {SORTING_OPTIONS} from "utils/constant";
 
 class RecentList extends Component {
-  constructor() {
-    super();
+
+  constructor(props) {
+    super(props);
     this.state = {
       data: [],
       checkInterest: true,
       brand: ["전체"],
       allBtn: true,
+      currentSortingOpt: SORTING_OPTIONS[0],
     };
 
     this.checkBoxRef = createRef();
+  }
+
+  handleSelectSortingOpt = e =>  {
+    const target = e.target;
+    const nodeName = target.nodeName.toLowerCase();
+    if (nodeName === 'button') {
+      this.setState({currentSortingOpt: target.innerText});
+    }
   }
 
   componentDidMount = () => {
@@ -101,7 +112,10 @@ class RecentList extends Component {
             interestFitler={this.interestFitler}
             checkBoxRef={this.checkBoxRef}
           />
-          <ModalSortingSelector />
+          <ModalSortingSelector 
+            currentSortingOpt={this.state.currentSortingOpt}
+            handleSelectSortingOpt={this.handleSelectSortingOpt}
+          />
           {checkInterest ? (
             <>
               {(data || []).map((ele, index) => (
