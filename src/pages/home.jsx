@@ -58,11 +58,12 @@ class Home extends Component {
   }
 }
 const ListWrap = styled.div`
-  padding: 3rem 5rem;
+  padding: 3rem 6rem;
 `;
 
 const ProductListTitle = styled.p`
   font-size: 3rem;
   font-weight: bold;
 `;
+
 export default Home;
