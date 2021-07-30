@@ -20,7 +20,7 @@ class ProductDetailPage extends Component {
     }
     localStorage.setItem(
       "selected",
-      JSON.stringify([...getSelected, { ...product }])
+      JSON.stringify([...getSelected, { ...product, interest: true }])
     );
   };
 
@@ -65,9 +65,9 @@ class ProductDetailPage extends Component {
   setNotInterested = (product) => {
     // localStrage에 조회된 상품에서 상품을 조회 -> 상품 제거 -> interest: false 로 변경 후 상품 다시 추가
     const getSelected = JSON.parse(localStorage.getItem("selected"));
-    // 찾아서 제거
-    getSelected.push({ ...product, interest: false });
-    console.log(getSelected);
+    const newSelected = getSelected.filter((el) => el.id !== product.id);
+    newSelected.push({ ...product, interest: false });
+    localStorage.setItem("selected", JSON.stringify(newSelected));
 
     this.randomProduct();
   };
