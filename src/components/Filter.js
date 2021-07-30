@@ -6,6 +6,7 @@ class Filter extends Component {
     super();
     this.state = {
       data: [],
+      checkInterest: true,
     };
   }
 
@@ -13,9 +14,14 @@ class Filter extends Component {
     fetch("http://localhost:3000/data/product.json")
       .then((res) => res.json())
       .then((res) => {
-        let temp = res.filter((ele) => ele.id % 10 === 0);
+        let temp = res.filter((ele) => ele.id % 10 === 0); // 필터 작업용
+        let temp2 = temp.map((ele, index) =>
+          index % 2 === 0
+            ? Object.assign(ele, { interest: true })
+            : Object.assign(ele, { interest: false })
+        ); // 관심 작업용
 
-        localStorage.setItem("selected", JSON.stringify(temp));
+        localStorage.setItem("selected", JSON.stringify(temp2));
         const getSelected = JSON.parse(localStorage.getItem("selected"));
         this.setState({ data: getSelected });
       });
@@ -28,13 +34,13 @@ class Filter extends Component {
 
     // 전체
     if (target === "전체") {
-      console.log("전체", getSelected);
+      // console.log("전체", getSelected);
       this.setState({ data: getSelected });
     } else {
-      console.log(
-        `${target}`,
-        getSelected.filter((ele) => ele.brand === target)
-      );
+      // console.log(
+      //   `${target}`,
+      //   getSelected.filter((ele) => ele.brand === target)
+      // );
       let temp = getSelected.filter((ele) => ele.brand === target);
       this.setState({ data: temp });
     }
@@ -42,7 +48,18 @@ class Filter extends Component {
 
   // 관심 필터
   interestFitler = () => {
-    console.log("관심.");
+    const { checkInterest } = this.state;
+    const getSelected = JSON.parse(localStorage.getItem("selected"));
+
+    // 관심 필터 체크 O
+    if (checkInterest) {
+      let temp = getSelected.filter((ele) => ele.interest === true);
+      this.setState({ data: temp, checkInterest: false });
+    }
+    // 관심 필터 체크 X
+    else {
+      this.setState({ data: getSelected, checkInterest: true });
+    }
   };
 
   render() {
