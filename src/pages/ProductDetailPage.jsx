@@ -13,19 +13,38 @@ class ProductDetailPage extends Component {
   componentDidMount() {
     fetch("http://localhost:3000/data/product.json")
       .then((res) => res.json())
-      .then((res) => this.setState({ products: res, product: res[this.props.match.params.id - 1] }));
+      .then((res) => {
+        this.setState({ products: res, product: res[this.props.match.params.id - 1] });
+      })
+      .then(() => {
+        // localStraoge에 조회된 상품 추가
+        const getSelected = JSON.parse(localStorage.getItem("selected"));
+        localStorage.setItem("selected", JSON.stringify([...getSelected, this.state.product]));
+      });
   }
 
   randomProduct = () => {
-    const currentProductId = this.state.product.id;
+    // localStraoge에서 조회된 상품 목록 불러오기
+    const getSelected = JSON.parse(localStorage.getItem("selected"));
 
-    const avaliableProductIds = this.state.products.map((product) => product.id);
-    avaliableProductIds.splice(avaliableProductIds.indexOf(currentProductId), 1);
+    // 관심없음 상품, 현 상품 제외하고 랜덤 상품 id 생성
+    const notInterestedId = getSelected
+      .filter((product) => {
+        return product.interest;
+      })
+      .map((product) => product.id);
+    const currentProductId = this.state.product.id;
+    const avaliableProductIds = this.state.products
+      .map((product) => product.id)
+      .filter((id) => !notInterestedId.includes(id) && id !== currentProductId);
     const randomId = avaliableProductIds[Math.floor(Math.random() * avaliableProductIds.length)];
 
+    // 랜덤 상품으로 이동
     this.props.history.push(`/product/${randomId}`);
-
     this.setState({ product: this.state.products[randomId - 1] });
+
+    // 랜덤 상품 localStroage에 추가
+    localStorage.setItem("selected", JSON.stringify([...getSelected, this.state.product]));
   };
 
   render() {
