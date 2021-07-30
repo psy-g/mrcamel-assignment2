@@ -42,7 +42,7 @@ class ProductDetailPage extends Component {
     // 관심없음 상품, 현 상품 제외하고 랜덤 상품 id 생성
     const notInterestedId = getSelected
       .filter((product) => {
-        return product.interest;
+        return !product.interest;
       })
       .map((product) => product.id);
 
