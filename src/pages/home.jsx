@@ -15,12 +15,14 @@ class Home extends Component {
   }
 
   componentDidMount = () => {
+
     fetchData().then((res) => {
       this.setState({ products: res });
     });
   };
 
   render() {
+    const { products } = this.state;
     return (
       <Layout>
         <ListWrap>
