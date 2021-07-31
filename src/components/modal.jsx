@@ -24,11 +24,14 @@ const StyledModal = styled.article`
 	position: relative;
 	display: flex;
 	flex-direction: column;
-	width: 50rem;
-	border: 1px solid orange;
+	width: 40rem;
 	background-color: #fff;
 `;
 
+const ModalHeader = styled.div`
+  height: 40px;
+  background-color: #9eadba;
+`
 
 class Modal extends Component {
 	constructor(props) {
@@ -119,6 +122,7 @@ class Modal extends Component {
 								aria-label={label}
 								onClick={this.handleClose}
 							>
+								<ModalHeader />
 								{children}
 							</StyledModal>
 						</Wrapper>

@@ -34,5 +34,6 @@ const ProductInteresting = styled.p`
   font-size: 3rem;
   right: 30px;
   top: 35px;
+  pointer-events: none;
 `;
 export default Product;

@@ -57,5 +57,13 @@ const OpenerBtn = styled.button`
 	color: #1b25f0;
 `;
 const SortingList = styled.ul`
+  display: flex;
+	flex-direction: column;
+  justify-content: center;
+  align-items: center;
 	width: 100%;
-`
+	min-height: 15rem;
+  background-color: #eee;
+  font-size: 2rem;
+`;
+

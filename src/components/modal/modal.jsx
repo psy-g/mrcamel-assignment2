@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import styled from 'styled-components/macro';
 
 class Modal extends Component {
-  closeHanlder = (e) => {};
   render() {
     return (
       <ModalWrap>
