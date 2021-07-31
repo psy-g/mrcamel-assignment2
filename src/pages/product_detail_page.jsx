@@ -3,8 +3,7 @@ import styled from 'styled-components';
 
 import Layout from 'components/layout';
 import { notInterestedStorage, recentHistoryStorage } from 'utils/storage';
-import { getData } from 'utils/fetch';
-import { fetchData, getNotInterestedId, getSelected, setSelected } from 'utils/utils';
+import { fetchData } from 'utils/utils';
 
 class ProductDetailPage extends Component {
   constructor(props) {

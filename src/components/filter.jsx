@@ -1,5 +1,6 @@
 import React, { Component, createRef } from 'react';
 import styled from 'styled-components/macro';
+import { notInterestedStorage, recentHistoryStorage } from 'utils/storage';
 
 class Filter extends Component {
   constructor(props) {
@@ -13,30 +14,40 @@ class Filter extends Component {
   // 브랜드 필터
   brandFilter = (e) => {
     const target = e;
-    const getSelected = JSON.parse(localStorage.getItem('selected'));
 
-    // 전체
-    if (target === '전체') {
-      this.props.changeData(getSelected);
-      this.setState({ allBtn: true });
-      for (let i = 1; i < this.checkBoxRef.current.children.length; i++) {
-        this.checkBoxRef.current.children[i].children[0].checked = false;
-      }
-    } else {
-      let checkbox = this.checkBoxRef.current.getElementsByTagName('input');
-      let selectedBrand = [];
+    const recentHistory = recentHistoryStorage.load();
+    const notInterestedId = notInterestedStorage.load().map((ele) => ele.id);
 
-      for (let ele of checkbox) {
-        if (ele.checked === true) selectedBrand.push(ele.nextSibling.innerText);
-      }
+    if (recentHistory) {
+      let sum = recentHistory.map((ele) =>
+        notInterestedId.indexOf(ele.id) !== -1
+          ? Object.assign(ele, { interest: false })
+          : Object.assign(ele, { interest: true }),
+      );
 
-      if (selectedBrand.length > 0) {
-        let temp = getSelected.filter((ele) => selectedBrand.indexOf(ele.brand) !== -1);
-        this.props.changeData(temp);
-        this.setState({ allBtn: false });
-      } else {
-        this.props.changeData(getSelected);
+      // 전체
+      if (target === '전체') {
+        this.props.changeData(sum);
         this.setState({ allBtn: true });
+        for (let i = 1; i < this.checkBoxRef.current.children.length; i++) {
+          this.checkBoxRef.current.children[i].children[0].checked = false;
+        }
+      } else {
+        let checkbox = this.checkBoxRef.current.getElementsByTagName('input');
+        let selectedBrand = [];
+
+        for (let ele of checkbox) {
+          if (ele.checked === true) selectedBrand.push(ele.nextSibling.innerText);
+        }
+
+        if (selectedBrand.length > 0) {
+          let temp = sum.filter((ele) => selectedBrand.indexOf(ele.brand) !== -1);
+          this.props.changeData(temp);
+          this.setState({ allBtn: false });
+        } else {
+          this.props.changeData(sum);
+          this.setState({ allBtn: true });
+        }
       }
     }
   };
@@ -57,7 +68,6 @@ class Filter extends Component {
 
   render() {
     const { brand } = this.props;
-
     const { allBtn } = this.state;
 
     return (
