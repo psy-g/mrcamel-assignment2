@@ -15,6 +15,7 @@ class Home extends Component {
   }
 
   componentDidMount = () => {
+
     fetchData().then((res) => {
       this.setState({ products: res });
       localStorage.setItem('items', JSON.stringify(this.state.products));
@@ -22,7 +23,8 @@ class Home extends Component {
   };
 
   render() {
-    const products = JSON.parse(localStorage.getItem('items'));
+    const { products } = this.state;
+
     return (
       <Layout>
         <ListWrap>
