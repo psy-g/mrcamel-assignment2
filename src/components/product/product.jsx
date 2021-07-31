@@ -1,16 +1,14 @@
-import React, { Component } from "react";
-import styled from "styled-components/macro";
+import React, { Component } from 'react';
+import styled from 'styled-components/macro';
 
 class Product extends Component {
   render() {
     return (
-      <ProductWrap check={this.props.check}>
+      <ProductWrap check={this.props.notInterest}>
         <ProductContent>Title: {this.props.title}</ProductContent>
         <ProductContent>Brand: {this.props.brand}</ProductContent>
         <ProductContent>Price: {this.props.price}</ProductContent>
-        {!this.props.interest && (
-          <ProductInteresting>관심없음</ProductInteresting>
-        )}
+        {this.props.notInterest && <ProductInteresting>관심없음</ProductInteresting>}
       </ProductWrap>
     );
   }
@@ -23,7 +21,7 @@ const ProductWrap = styled.div`
   background-color: #dfe6ed;
   border-radius: 5px;
   margin-top: 2rem;
-  cursor: ${(props) => props.check && "pointer"};
+  cursor: ${(props) => props.check && 'pointer'};
 `;
 
 const ProductContent = styled.p`

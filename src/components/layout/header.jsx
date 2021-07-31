@@ -1,8 +1,8 @@
-import React, { Component } from "react";
-import { Link } from "react-router-dom";
-import styled from "styled-components";
+import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
+import styled from 'styled-components';
 
-import Logo from "assets/images/pc_img.png";
+import Logo from 'assets/images/pc_img.png';
 
 export class Header extends Component {
   render() {
@@ -64,7 +64,5 @@ const StyledLink = styled(Link)`
   align-items: center;
   height: 100%;
 `;
-
-
 
 export default Header;
