@@ -6,7 +6,7 @@ import Layout from 'components/layout';
 import Filter from 'components/filter';
 import ModalSortingSelector from 'components/modal_sorting_selector';
 import { sortingOptions } from 'utils/constant';
-import { getSelected } from 'utils/utils';
+import { notInterestedStorage, recentHistoryStorage } from 'utils/storage';
 
 class RecentList extends Component {
   constructor(props) {
@@ -35,12 +35,22 @@ class RecentList extends Component {
 
   componentDidMount = () => {
     let temp = [];
-    const getStorage = getSelected();
-    const brandArr = getStorage
-      .filter((ele) => temp.indexOf(ele.brand) === -1 && temp.push(ele.brand))
-      .map((ele) => ele.brand);
+    const recentHistory = recentHistoryStorage.load();
+    const notInterestedId = notInterestedStorage.load().map((ele) => ele.id);
 
-    this.setState({ data: getStorage, brand: [...this.state.brand, ...brandArr] });
+    if (recentHistory) {
+      let sum = recentHistory.map((ele) =>
+        notInterestedId.indexOf(ele.id) !== -1
+          ? Object.assign(ele, { interest: false })
+          : Object.assign(ele, { interest: true }),
+      );
+
+      const brandArr = sum
+        .filter((ele) => temp.indexOf(ele.brand) === -1 && temp.push(ele.brand))
+        .map((ele) => ele.brand);
+
+      this.setState({ data: sum, brand: [...this.state.brand, ...brandArr] });
+    }
   };
 
   componentDidUpdate(prevProps, prevState) {
