@@ -23,7 +23,6 @@ class ModalSortingSelector extends Component {
 
 	render() {
 		const { currentSortingOpt, handleSelectSortingOpt } = this.props;
-
 		return (
 			<Modal
 				label="상품정렬 옵션 선택 모달"
@@ -41,10 +40,11 @@ class ModalSortingSelector extends Component {
 			>
 				<SortingList onClick={handleSelectSortingOpt}>
 					{
+
 						Object.keys(sortingOptions).map(item => (
 							<SortingItem
-								key={item.desc}
-								label={item.desc}
+								key={sortingOptions[item].desc}
+								label={sortingOptions[item].desc}
 								currentSortingOpt={currentSortingOpt}
 							/>
 						))

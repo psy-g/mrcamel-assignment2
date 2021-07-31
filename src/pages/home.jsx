@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
 import { createPortal } from 'react-dom';
 import Layout from 'components/layout';
 import Product from 'components/product/product';
-import { fetchData, getNotInterestedId } from 'utils/utils';
+import { fetchData, getNotInterestedId } from 'utils';
 import Modal from 'components/modal/modal';
 
 class Home extends Component {
