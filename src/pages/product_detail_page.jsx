@@ -18,10 +18,10 @@ class ProductDetailPage extends Component {
 
   componentDidMount() {
     const {match:{params:{ id }}} = this.props;
-    getData().then(res => {
-      notInterestedStorage.save()
-      res[id - 1]
-    })
+    // getData().then(res => {
+    //   notInterestedStorage.save()
+    //   res[id - 1]
+    // })
     fetchData().then((res) => {
       this.setState({
         ...this.state,

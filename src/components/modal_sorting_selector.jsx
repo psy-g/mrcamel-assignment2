@@ -3,7 +3,7 @@ import styled from 'styled-components/macro';
 
 import Modal from 'components/modal';
 import SortingItem from "components/sorting_item";
-import {SORTING_OPTIONS} from "utils/constant";
+import {sortingOptions} from "utils/constant";
 
 const OpenerBtn = styled.button`
 	width: 10rem;
@@ -41,10 +41,10 @@ class ModalSortingSelector extends Component {
 			>
 				<SortingList onClick={handleSelectSortingOpt}>
 					{
-						SORTING_OPTIONS.map(item => (
+						Object.keys(sortingOptions).map(item => (
 							<SortingItem
-								key={item}
-								label={item}
+								key={item.desc}
+								label={item.desc}
 								currentSortingOpt={currentSortingOpt}
 							/>
 						))

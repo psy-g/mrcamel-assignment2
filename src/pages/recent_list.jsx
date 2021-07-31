@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import Layout from 'components/layout';
 import Filter from 'components/filter';
 import ModalSortingSelector from 'components/modal_sorting_selector';
-import { SORTING_OPTIONS } from 'utils/constant';
+import { sortingOptions } from 'utils/constant';
 import { getSelected } from 'utils/utils';
 
 class RecentList extends Component {
@@ -15,7 +15,7 @@ class RecentList extends Component {
       data: [],
       checkInterest: true,
       brand: ['전체'],
-      currentSortingOpt: SORTING_OPTIONS[0],
+      currentSortingOpt: sortingOptions.RECENT_VIEW.desc,
     };
   }
 

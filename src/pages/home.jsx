@@ -22,7 +22,6 @@ class Home extends Component {
   };
 
   render() {
-    const { products } = this.state;
     return (
       <Layout>
         <ListWrap>

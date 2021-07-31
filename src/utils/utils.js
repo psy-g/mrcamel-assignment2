@@ -8,6 +8,9 @@ export const fetchData = () => {
 // 현재 localStorage에 저장된 조회된 상품 중 "관심없음"인 상품의 id 배열
 export const getNotInterestedId = () => {
   const getSelected = JSON.parse(localStorage.getItem('selected'));
+  if (!getSelected) {
+    return [];
+  }
   const notInterestedId = getSelected
     .filter((product) => {
       return !product.interest;
