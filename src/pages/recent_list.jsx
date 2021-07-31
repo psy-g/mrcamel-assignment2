@@ -44,7 +44,6 @@ class RecentList extends Component {
           ? Object.assign(ele, { interest: false })
           : Object.assign(ele, { interest: true }),
       );
-
       const brandArr = sum
         .filter((ele) => temp.indexOf(ele.brand) === -1 && temp.push(ele.brand))
         .map((ele) => ele.brand);

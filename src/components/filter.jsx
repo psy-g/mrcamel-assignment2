@@ -19,7 +19,6 @@ class Filter extends Component {
 
     if (recentHistory && notInterestedStorage.load()) {
       const notInterestedId = notInterestedStorage.load().map((ele) => ele.id);
-
       sum = recentHistory.map((ele) =>
         notInterestedId.indexOf(ele.id) !== -1
           ? Object.assign(ele, { interest: false })
