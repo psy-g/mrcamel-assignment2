@@ -1,13 +1,14 @@
-import React, { Component } from "react";
-import styled from "styled-components/macro";
+import React, { Component } from 'react';
+import styled from 'styled-components/macro';
 
 class Modal extends Component {
+  closeHanlder = (e) => {};
   render() {
     return (
       <ModalWrap>
         <ModalContentWrap>
           <ModalHeader>
-            <CloseButton>x</CloseButton>
+            <CloseButton onClick={this.props.onClose}>x</CloseButton>
           </ModalHeader>
           <ModalContent>관심없는 상품입니다!</ModalContent>
         </ModalContentWrap>
@@ -17,12 +18,15 @@ class Modal extends Component {
 }
 
 const ModalWrap = styled.div`
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
   display: flex;
-  position: absolute;
-  width: 100%;
-  height: 100%;
   justify-content: center;
   align-items: center;
+  width: 100%;
   z-index: 100;
 `;
 

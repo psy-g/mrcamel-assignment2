@@ -1,15 +1,17 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-
+import { createPortal } from 'react-dom';
 import Layout from 'components/layout';
 import Product from 'components/product/product';
 import { fetchData, getNotInterestedId } from 'utils/utils';
+import Modal from 'components/modal/modal';
 
 class Home extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      isOpen: false,
       products: [],
     };
   }
@@ -19,15 +21,31 @@ class Home extends Component {
       this.setState({ products: res });
     });
   };
+  clickHandler = (e) => {
+    const target = e.target;
+    const nodeName = target.nodeName.toLowerCase();
+
+    if (nodeName === 'li') {
+      if (target.dataset.notinterest) {
+        this.setState({ isOpen: true });
+      } else {
+        this.props.history.push(`/product/${target.dataset.id}`);
+      }
+    }
+  };
+
+  closeHandler = () => {
+    this.setState({ isOpen: false });
+  };
 
   render() {
     return (
       <Layout>
         <ListWrap>
           <ProductListTitle>상품 목록</ProductListTitle>
-          {this.state.products.map((product, index) =>
-            !getNotInterestedId().includes(String(product.id)) ? (
-              <Link to={`/product/${product.id}`} key={product.id}>
+          <ProductContainer onClick={this.clickHandler}>
+            {this.state.products.map((product) =>
+              !getNotInterestedId().includes(String(product.id)) ? (
                 <Product
                   key={product.id}
                   title={product.title}
@@ -35,24 +53,30 @@ class Home extends Component {
                   price={product.price}
                   id={product.id}
                 />
-              </Link>
-            ) : (
-              <Product
-                key={product.id}
-                title={product.title}
-                brand={product.brand}
-                price={product.price}
-                notInterest={getNotInterestedId().includes(String(product.id))}
-              />
-            ),
-          )}
+              ) : (
+                <Product
+                  key={product.id}
+                  title={product.title}
+                  brand={product.brand}
+                  price={product.price}
+                  notinterest={getNotInterestedId().includes(String(product.id))}
+                />
+              ),
+            )}
+          </ProductContainer>
         </ListWrap>
+        {this.state.isOpen && createPortal(<Modal onClose={this.closeHandler} />, document.body)}
       </Layout>
     );
   }
 }
 const ListWrap = styled.div`
   padding: 3rem 6rem;
+`;
+
+const ProductContainer = styled.ul`
+  max-width: 1200px;
+  margin: 0 auto;
 `;
 
 const ProductListTitle = styled.p`
