@@ -32,7 +32,7 @@ class ProductDetailPage extends Component {
   }
 
   addStorage = (product) => {
-    if (recentHistoryStorage.load() && Object.keys(recentHistoryStorage.load()).length) {
+    if (recentHistoryStorage.load() && recentHistoryStorage.load().length) {
       const data = recentHistoryStorage.load();
       const id = this.props.match.params.id;
       const newData = data.filter((item) => item.id !== id);
@@ -46,7 +46,7 @@ class ProductDetailPage extends Component {
     // 관심없음 상품, 현 상품 제외하고 랜덤 상품 id 생성
     const currentProductId = this.props.match.id;
     let notInterestedId = [];
-    if (notInterestedStorage.load() && Object.keys(notInterestedStorage.load()).length) {
+    if (notInterestedStorage.load() && notInterestedStorage.load().length) {
       notInterestedId = notInterestedStorage.load().map((item) => item.id);
     }
 
@@ -69,7 +69,7 @@ class ProductDetailPage extends Component {
   };
 
   setNotInterested = (product) => {
-    if (notInterestedStorage.load() && Object.keys(notInterestedStorage.load()).length) {
+    if (notInterestedStorage.load() && notInterestedStorage.load().length) {
       const data = notInterestedStorage.load();
       notInterestedStorage.save([...data, product]);
     } else {
