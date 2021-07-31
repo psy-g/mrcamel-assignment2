@@ -4,28 +4,28 @@ import styled from 'styled-components/macro';
 class Product extends Component {
   render() {
     return (
-      <ProductWrap check={this.props.notInterest}>
+      <ProductWrap data-id={this.props.id} data-notinterest={this.props.notinterest}>
         <ProductContent>Title: {this.props.title}</ProductContent>
         <ProductContent>Brand: {this.props.brand}</ProductContent>
         <ProductContent>Price: {this.props.price}</ProductContent>
-        {this.props.notInterest && <ProductInteresting>관심없음</ProductInteresting>}
+        {this.props.notinterest && <ProductInteresting>관심없음</ProductInteresting>}
       </ProductWrap>
     );
   }
 }
-const ProductWrap = styled.div`
+const ProductWrap = styled.li`
   position: relative;
-  width: 100%;
   height: 100%;
   padding: 1rem;
   background-color: #dfe6ed;
   border-radius: 5px;
   margin-top: 2rem;
-  cursor: ${(props) => props.check && 'pointer'};
+  cursor: pointer;
 `;
 
 const ProductContent = styled.p`
   font-size: 2rem;
+  pointer-events: none;
   margin: 0.5rem;
 `;
 
