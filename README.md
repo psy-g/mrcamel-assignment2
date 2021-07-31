@@ -1,70 +1,52 @@
-# Getting Started with Create React App
+# mrcarmel Assignment
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## 🚩 구현 목록
+- 상세 조회 : 이력데이터 누적, 동일 상품 조회 시 최신 데이터로 갱신
+- 랜덤상품 조회 : 현 상품을 제외하고 랜덤 로드
+- 관심 없음 : 랜덤 로드, 현 상품은 앞으로 상품상세에서 미노출
+- 필터 (브랜드, 관심도)
+- 정렬 (최근 조회 순, 낮은 가격 순)
+- 관심 없는 상품 클릭 시 경고메세지 노출되며 이동 방지
+- 00시 기준으로 최근 조회이력과 관심 없는 상품목록 초기화
 
-## Available Scripts
+## 📌 구현 파트
 
-In the project directory, you can run:
+||구현 파트|
+|:--:|:--|
+|<b>강용구</b>|필터(브랜드, 관심도) / 로컬 스토리지 초기화|
+|<b>석정도</b>|헤더, 상품 목록 / Alert 모달 구현|
+|<b>윤맑은이슬</b>|상세 조회 & 관심 없음 / 로컬 스토리지 구현|
+|<b>정태웅</b>|정렬 (최근 조회 순, 낮은 가격 순) / 정렬 모달 구현 |
 
-### `yarn start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## 🔧 Built With
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+<div style="display: flex">
+<img alt="React" src ="https://img.shields.io/badge/React-61DAFB.svg?&style=for-the-badge&logo=React&logoColor=white"/>
+<img alt="HTML5" src ="https://img.shields.io/badge/HTML5-E34F26.svg?&style=for-the-badge&logo=HTML5&logoColor=white"/>
+<img alt="CSS3" src ="https://img.shields.io/badge/CSS3-1572B6.svg?&style=for-the-badge&logo=CSS3&logoColor=white"/>
+<img alt="styled-components" src ="https://img.shields.io/badge/styled_components-DB7093.svg?&style=for-the-badge&logo=styled-components&logoColor=white"/>
 
-### `yarn test`
+</div>
+<br>
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## ⚙ Build Installation
 
-### `yarn build`
+```bash
+# install dependencies
+$ yarn install
+# serve with hot reload at localhost:3000
+$ yarn start
+```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+<br>
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## 🚀Project Link
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- [Link](https://mrcarmel-re4ct.netlify.app/)
 
-### `yarn eject`
+## ✨Preview
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+![camel1](https://github.com/psy-g/data/blob/master/post/0731-1.gif?raw=true)
+8:55
+![camel2](https://github.com/psy-g/data/blob/master/post/0731-2.gif?raw=true)
