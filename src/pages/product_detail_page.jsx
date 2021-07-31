@@ -1,117 +1,119 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import styled from 'styled-components';
 
 import Layout from 'components/layout';
-import {notInterestedStorage, recentHistoryStorage} from "utils/storage";
-import {getData} from "utils/fetch";
-import {fetchData, getNotInterestedId, getSelected, setSelected} from 'utils/utils'
+import { notInterestedStorage, recentHistoryStorage } from 'utils/storage';
+import { fetchData } from 'utils/utils';
 
 class ProductDetailPage extends Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			products: [],
-			product: {},
-			noMoreProduct: false,
-		};
-	}
+  constructor(props) {
+    super(props);
+    this.state = {
+      products: [],
+      product: {},
+      noMoreProduct: false,
+    };
+  }
 
-	componentDidMount() {
-		const {match: {params: {id}}} = this.props;
-		fetchData().then((res) => {
-			this.setState({
-				...this.state,
-				products: res,
-				product: res[this.props.match.params.id - 1],
-			});
-			this.addStorage(res[this.props.match.params.id - 1]);
-		});
-	}
+  componentDidMount() {
+    const {
+      match: {
+        params: { id },
+      },
+    } = this.props;
+    fetchData().then((res) => {
+      this.setState({
+        ...this.state,
+        products: res,
+        product: res[this.props.match.params.id - 1],
+      });
+      this.addStorage(res[this.props.match.params.id - 1]);
+    });
+  }
 
-	addStorage = (product) => {
-		if (recentHistoryStorage.load() && Object.keys(recentHistoryStorage.load()).length) {
-			const data = recentHistoryStorage.load();
-			const id = this.props.match.params.id
-			const newData = data.filter(item => item.id !== id);
-			recentHistoryStorage.save([product, ...newData]);
-		} else {
-			recentHistoryStorage.save([product]);
-		}
-	};
+  addStorage = (product) => {
+    if (recentHistoryStorage.load() && Object.keys(recentHistoryStorage.load()).length) {
+      const data = recentHistoryStorage.load();
+      const id = this.props.match.params.id;
+      const newData = data.filter((item) => item.id !== id);
+      recentHistoryStorage.save([product, ...newData]);
+    } else {
+      recentHistoryStorage.save([product]);
+    }
+  };
 
-	randomProduct = () => {
-		// 관심없음 상품, 현 상품 제외하고 랜덤 상품 id 생성
-		const currentProductId = this.props.match.id;
-		let notInterestedId;
-		if (notInterestedStorage.load() && Object.keys(notInterestedStorage.load()).length) {
-			notInterestedId = notInterestedStorage.load().map(item => item.id);
-		}
+  randomProduct = () => {
+    // 관심없음 상품, 현 상품 제외하고 랜덤 상품 id 생성
+    const currentProductId = this.props.match.id;
+    let notInterestedId = [];
+    if (notInterestedStorage.load() && Object.keys(notInterestedStorage.load()).length) {
+      notInterestedId = notInterestedStorage.load().map((item) => item.id);
+    }
 
+    const avaliableProductIds = this.state.products
+      .map((product) => product.id)
+      .filter((id) => !notInterestedId.includes(id) && id !== currentProductId);
+    const randomId = avaliableProductIds[Math.floor(Math.random() * avaliableProductIds.length)];
+    if (avaliableProductIds.length === 0) {
+      this.setState({ noMoreProduct: true });
+    }
+    // 랜덤 상품으로 이동
+    if (avaliableProductIds.length > 0) {
+      this.props.history.push(`/product/${randomId}`);
+      this.setState({ product: this.state.products[randomId - 1] });
+      // // localStroage에 조회된 상품 추가
+      setTimeout(() => {
+        this.addStorage(this.state.products[randomId - 1]);
+      }, 0);
+    }
+  };
 
-		const avaliableProductIds = this.state.products
-			.map((product) => product.id)
-			.filter((id) => !notInterestedId.includes(id) && id !== currentProductId);
-		const randomId = avaliableProductIds[Math.floor(Math.random() * avaliableProductIds.length)];
-		if (avaliableProductIds.length === 0) {
-			this.setState({noMoreProduct: true});
-		}
-		// 랜덤 상품으로 이동
-		if (avaliableProductIds.length > 0) {
-			this.props.history.push(`/product/${randomId}`);
-			this.setState({product: this.state.products[randomId - 1]});
-			// // localStroage에 조회된 상품 추가
-			setTimeout(() => {
-				this.addStorage(this.state.products[randomId - 1]);
-			}, 0);
-		}
-	};
+  setNotInterested = (product) => {
+    if (notInterestedStorage.load() && Object.keys(notInterestedStorage.load()).length) {
+      const data = notInterestedStorage.load();
+      notInterestedStorage.save([...data, product]);
+    } else {
+      notInterestedStorage.save([product]);
+    }
+    this.randomProduct();
+  };
 
-	setNotInterested = (product) => {
-		if (notInterestedStorage.load() && Object.keys(notInterestedStorage.load()).length) {
-			const data = notInterestedStorage.load();
-			notInterestedStorage.save([...data, product]);
-		} else {
-			notInterestedStorage.save([product]);
-		}
-		this.randomProduct();
-	};
-
-	render() {
-		const {product, noMoreProduct} = this.state;
-		return (
-			<Layout>
-				<Container>
-					<OutlineButton
-						onClick={() => {
-							this.props.history.push('/');
-						}}
-					>
-						목록으로 돌아가기
-					</OutlineButton>
-					<ProductCard>
-						{noMoreProduct ? (
-							<Title>조회 가능한 상품이 없습니다.</Title>
-						) : (
-							<>
-								<Logo>image</Logo>
-								<ProductInfo>
-									<Title>{product.title}</Title>
-									<Price>{product.price}원</Price>
-									<div>
-										<Brand>{product.brand}</Brand>
-									</div>
-									<div>
-										<Button onClick={() => this.setNotInterested(product)}>관심 없음</Button>
-										<Button onClick={this.randomProduct}>랜덤 상품 조회</Button>
-									</div>
-								</ProductInfo>
-							</>
-						)}
-					</ProductCard>
-				</Container>
-			</Layout>
-		);
-	}
+  render() {
+    const { product, noMoreProduct } = this.state;
+    return (
+      <Layout>
+        <Container>
+          <OutlineButton
+            onClick={() => {
+              this.props.history.push('/');
+            }}
+          >
+            목록으로 돌아가기
+          </OutlineButton>
+          <ProductCard>
+            {noMoreProduct ? (
+              <Title>조회 가능한 상품이 없습니다.</Title>
+            ) : (
+              <>
+                <Logo>image</Logo>
+                <ProductInfo>
+                  <Title>{product.title}</Title>
+                  <Price>{product.price}원</Price>
+                  <div>
+                    <Brand>{product.brand}</Brand>
+                  </div>
+                  <div>
+                    <Button onClick={() => this.setNotInterested(product)}>관심 없음</Button>
+                    <Button onClick={this.randomProduct}>랜덤 상품 조회</Button>
+                  </div>
+                </ProductInfo>
+              </>
+            )}
+          </ProductCard>
+        </Container>
+      </Layout>
+    );
+  }
 }
 
 export default ProductDetailPage;
