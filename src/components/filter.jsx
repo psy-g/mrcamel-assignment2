@@ -14,11 +14,14 @@ class Filter extends Component {
   // 브랜드 필터
   brandFilter = (e) => {
     const target = e;
-
     const recentHistory = recentHistoryStorage.load();
-    const notInterestedId = notInterestedStorage.load().map((ele) => ele.id);
 
     if (recentHistory) {
+      let notInterestedId = null;
+      if (notInterestedStorage.load()) {
+        notInterestedId = notInterestedStorage.load().map((ele) => ele.id);
+      }
+
       let sum = recentHistory.map((ele) =>
         notInterestedId.indexOf(ele.id) !== -1
           ? Object.assign(ele, { interest: false })

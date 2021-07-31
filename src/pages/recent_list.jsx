@@ -36,20 +36,24 @@ class RecentList extends Component {
   componentDidMount = () => {
     let temp = [];
     const recentHistory = recentHistoryStorage.load();
-    const notInterestedId = notInterestedStorage.load().map((ele) => ele.id);
 
     if (recentHistory) {
-      let sum = recentHistory.map((ele) =>
-        notInterestedId.indexOf(ele.id) !== -1
-          ? Object.assign(ele, { interest: false })
-          : Object.assign(ele, { interest: true }),
-      );
+      let notInterestedId = null;
+      if (notInterestedStorage.load()) {
+        notInterestedId = notInterestedStorage.load().map((ele) => ele.id);
 
-      const brandArr = sum
-        .filter((ele) => temp.indexOf(ele.brand) === -1 && temp.push(ele.brand))
-        .map((ele) => ele.brand);
+        let sum = recentHistory.map((ele) =>
+          notInterestedId.indexOf(ele.id) !== -1
+            ? Object.assign(ele, { interest: false })
+            : Object.assign(ele, { interest: true }),
+        );
 
-      this.setState({ data: sum, brand: [...this.state.brand, ...brandArr] });
+        const brandArr = sum
+          .filter((ele) => temp.indexOf(ele.brand) === -1 && temp.push(ele.brand))
+          .map((ele) => ele.brand);
+
+        this.setState({ data: sum, brand: [...this.state.brand, ...brandArr] });
+      }
     }
   };
 
