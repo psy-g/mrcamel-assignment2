@@ -1,19 +1,23 @@
 import React, { Component } from 'react';
-import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import styled from 'styled-components/macro';
+import { createPortal } from 'react-dom';
 
+import { sortingOptions } from 'utils/constant';
+import {getNotInterestedId, notInterestedStorage, recentHistoryStorage} from 'utils/storage';
 import Layout from 'components/layout';
 import Filter from 'components/filter';
 import ModalSortingSelector from 'components/modal_sorting_selector';
-import { sortingOptions } from 'utils/constant';
-import { notInterestedStorage, recentHistoryStorage } from 'utils/storage';
+import Product from 'components/product/product';
+import Modal from 'components/modal/modal';
+
 
 class RecentList extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      isOpen: false,
       data: [],
-      checkInterest: true,
+      isCheckNotInterest: false,
       brand: ['전체'],
       currentSortingOpt: sortingOptions.RECENT_VIEW.desc,
     };
@@ -41,8 +45,8 @@ class RecentList extends Component {
       const notInterestedId = notInterestedStorage.load().map((ele) => ele.id);
       let sum = recentHistory.map((ele) =>
         notInterestedId.indexOf(ele.id) !== -1
-          ? Object.assign(ele, { interest: false })
-          : Object.assign(ele, { interest: true }),
+          ? Object.assign(ele, { isNotInterest: true })
+          : Object.assign(ele, { isNotInterest: false }),
       );
       const brandArr = sum
         .filter((ele) => temp.indexOf(ele.brand) === -1 && temp.push(ele.brand))
@@ -50,7 +54,7 @@ class RecentList extends Component {
 
       this.setState({ data: sum, brand: [...this.state.brand, ...brandArr] });
     } else if (recentHistory) {
-      let sum = recentHistory.map((ele) => Object.assign(ele, { interest: true }));
+      let sum = recentHistory.map((ele) => Object.assign(ele, { isNotInterest: false }));
 
       const brandArr = sum
         .filter((ele) => temp.indexOf(ele.brand) === -1 && temp.push(ele.brand))
@@ -79,60 +83,85 @@ class RecentList extends Component {
     }
   }
 
-  changeInterest = (change) => {
-    this.setState((prevState) => ({
-      checkInterest: change,
-    }));
+  handleCheckNotInterest = (e) => {
+    const checked = e.target.checked;
+    if (checked) {
+      this.setState({isCheckNotInterest: true});
+    } else {
+      this.setState({isCheckNotInterest: false});
+    }
+  };
+
+  clickHandler = (e) => {
+    const target = e.target;
+    const nodeName = target.nodeName.toLowerCase();
+
+    if (nodeName === 'li') {
+      if (target.dataset.notinterest === 'true') {
+        this.setState({ isOpen: true });
+      } else {
+        this.props.history.push(`/product/${target.dataset.id}`);
+      }
+    }
+  };
+
+  closeHandler = () => {
+    this.setState({ isOpen: false });
   };
 
   render() {
-    const { data, brand, checkInterest } = this.state;
+    const { data, brand, isCheckNotInterest } = this.state;
 
     return (
       <Layout>
         <ListWrap>
           <ProductListTitle>조회한 상품</ProductListTitle>
-          <Filter
+          <StyledFilterBox
             data={data}
             brand={brand}
-            changeData={this.changeData}
-            checkInterest={checkInterest}
+            handleCheckNotInterest={this.handleCheckNotInterest}
+            isCheckNotInterest={isCheckNotInterest}
             changeInterest={this.changeInterest}
           />
-          <ModalSortingSelector
-            currentSortingOpt={this.state.currentSortingOpt}
-            handleSelectSortingOpt={this.handleSelectSortingOpt}
-          />
-          {checkInterest ? (
+          <StyledSortingContainer>
+            <StyledSortingSelector
+              currentSortingOpt={this.state.currentSortingOpt}
+              handleSelectSortingOpt={this.handleSelectSortingOpt}
+            />
+          </StyledSortingContainer>
+          <ProductContainer onClick={this.clickHandler}>
+          {!isCheckNotInterest ? (
             <>
-              {(data || []).map((ele, index) => (
-                <Link to={`/product/${ele.id}`} key={index}>
-                  <ProductWrap>
-                    <ProductContent>Title: {ele.title}</ProductContent>
-                    <ProductContent>Brand: {ele.brand}</ProductContent>
-                    <ProductContent>Price: {ele.price}</ProductContent>
-                    {!ele.interest && <ProductInteresting>관심없음</ProductInteresting>}
-                  </ProductWrap>
-                </Link>
+              {(data || []).map((product, index) => (
+                <Product
+                  key={product.id}
+                  title={product.title}
+                  brand={product.brand}
+                  price={product.price}
+                  id={product.id}
+                  notinterest={product.isNotInterest}
+                />
               ))}
             </>
           ) : (
             <>
-              {(data || []).map(
-                (ele, index) =>
-                  ele.interest === true && (
-                    <Link to={`/product/${ele.id}`} key={index}>
-                      <ProductWrap>
-                        <ProductContent>Title: {ele.title}</ProductContent>
-                        <ProductContent>Brand: {ele.brand}</ProductContent>
-                        <ProductContent>Price: {ele.price}</ProductContent>
-                      </ProductWrap>
-                    </Link>
-                  ),
+              {(data || []).filter((product) => !product.isNotInterest).map(product =>
+                    (
+                    <Product
+                      key={product.id}
+                      title={product.title}
+                      brand={product.brand}
+                      price={product.price}
+                      id={product.id}
+                      notinterest={product.isNotInterest}
+                    />
+                  )
               )}
             </>
           )}
+          </ProductContainer>
         </ListWrap>
+        {this.state.isOpen && createPortal(<Modal onClose={this.closeHandler} />, document.body)}
       </Layout>
     );
   }
@@ -140,33 +169,33 @@ class RecentList extends Component {
 
 export default RecentList;
 
-const ListWrap = styled.div`
-  padding: 3rem 5rem;
+const ListWrap = styled.section`
+  max-width: 80rem;
+  margin: 0 auto;
+  padding: 3rem 0;
 `;
 
-const ProductListTitle = styled.p`
+const ProductListTitle = styled.h2`
+  margin-bottom: 2rem;
   font-size: 3rem;
   font-weight: bold;
 `;
 
-const ProductWrap = styled.div`
-  position: relative;
+const StyledFilterBox = styled(Filter)`
+  margin-bottom: 1rem;
+`;
+
+const StyledSortingContainer = styled.div`
+  display: flex;
+  justify-content: flex-end;
   width: 100%;
-  height: 100%;
-  padding: 1rem;
-  background-color: #dfe6ed;
-  margin-top: 2rem;
+  margin-bottom: 1rem;
 `;
 
-const ProductContent = styled.p`
-  font-size: 2rem;
-  margin: 0.5rem;
+const StyledSortingSelector = styled(ModalSortingSelector)`
+  
 `;
-
-const ProductInteresting = styled.p`
-  position: absolute;
-  font-size: 3rem;
-  right: 30px;
-  top: 35px;
-  color: red;
+const ProductContainer = styled.ul`
+  max-width: 1200px;
+  margin: 0 auto;
 `;

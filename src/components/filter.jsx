@@ -53,26 +53,12 @@ class Filter extends Component {
     }
   };
 
-  // 관심 필터
-  interestFilter = () => {
-    const { checkInterest } = this.props;
-
-    // 관심 필터 체크 O
-    if (checkInterest) {
-      this.props.changeInterest(false);
-    }
-    // 관심 필터 체크 X
-    else {
-      this.props.changeInterest(true);
-    }
-  };
-
   render() {
-    const { brand } = this.props;
+    const { brand, className } = this.props;
     const { allBtn } = this.state;
 
     return (
-      <Container>
+      <Container className={className}>
         <Brand>
           <div>필터: 브랜드</div>
           <CheckboxContainer ref={this.checkBoxRef}>
@@ -94,7 +80,7 @@ class Filter extends Component {
         <Interest>
           <div>필터: 관심</div>
           <CheckboxContainer>
-            <StyledCheckbox onClick={this.interestFilter} />
+            <StyledCheckbox onChange={this.props.handleCheckNotInterest} />
             <span>관심없는 상품 숨기기</span>
           </CheckboxContainer>
         </Interest>
