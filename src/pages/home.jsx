@@ -3,9 +3,9 @@ import styled from 'styled-components';
 import { createPortal } from 'react-dom';
 
 import Layout from 'components/layout';
-import Product from 'components/product/product';
+import Product from 'components/product';
+import Alert from 'components/alert';
 import { fetchData, getNotInterestedId } from 'utils';
-import Modal from 'components/modal/modal';
 
 class Home extends Component {
   constructor(props) {
@@ -43,7 +43,7 @@ class Home extends Component {
       <Layout>
         <ListWrap>
           <ProductListTitle>상품 목록</ProductListTitle>
-          <ProductContainer onClick={this.clickHandler}>
+          <ul onClick={this.clickHandler}>
             {this.state.products.map((product) =>
               !getNotInterestedId().includes(String(product.id)) ? (
                 <Product
@@ -63,23 +63,20 @@ class Home extends Component {
                 />
               ),
             )}
-          </ProductContainer>
+          </ul>
         </ListWrap>
-        {this.state.isOpen && createPortal(<Modal onClose={this.closeHandler} />, document.body)}
+        {this.state.isOpen && createPortal(<Alert onClose={this.closeHandler} />, document.body)}
       </Layout>
     );
   }
 }
-const ListWrap = styled.div`
+const ListWrap = styled.section`
   padding: 3rem 6rem;
-`;
-
-const ProductContainer = styled.ul`
   max-width: 800px;
   margin: 0 auto;
 `;
 
-const ProductListTitle = styled.p`
+const ProductListTitle = styled.h2`
   font-size: 3rem;
   font-weight: bold;
 `;

@@ -54,6 +54,7 @@ const NavList = styled.ul`
   display: flex;
 `;
 const NavItem = styled.li`
+  color: #fff;
   &:not(:first-child) {
     margin-left: 2rem;
   }

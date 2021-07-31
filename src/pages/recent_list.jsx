@@ -3,12 +3,12 @@ import styled from 'styled-components/macro';
 import { createPortal } from 'react-dom';
 
 import { sortingOptions } from 'utils/constant';
-import {getNotInterestedId, notInterestedStorage, recentHistoryStorage} from 'utils/storage';
+import { notInterestedStorage, recentHistoryStorage} from 'utils/storage';
 import Layout from 'components/layout';
 import Filter from 'components/filter';
 import ModalSortingSelector from 'components/modal_sorting_selector';
-import Product from 'components/product/product';
-import Modal from 'components/modal/modal';
+import Product from 'components/product';
+import Alert from 'components/alert';
 
 
 class RecentList extends Component {
@@ -50,8 +50,11 @@ class RecentList extends Component {
     const brandArr = sum
       .filter((ele) => temp.indexOf(ele.brand) === -1 && temp.push(ele.brand))
       .map((ele) => ele.brand);
-
-    this.setState({ data: sum, brand: [...this.state.brand, ...brandArr] });
+    if (this.state.brand.length > 1) {
+      this.setState({ data: sum, brand: [...this.state.brand]});
+    } else {
+      this.setState({ data: sum, brand: [...this.state.brand, ...brandArr] });
+    }
   };
 
   componentDidMount = () => {
@@ -171,7 +174,7 @@ class RecentList extends Component {
           )}
           </ProductContainer>
         </ListWrap>
-        {this.state.isOpen && createPortal(<Modal onClose={this.closeHandler} />, document.body)}
+        {this.state.isOpen && createPortal(<Alert onClose={this.closeHandler} />, document.body)}
       </Layout>
     );
   }
@@ -182,7 +185,7 @@ export default RecentList;
 const ListWrap = styled.section`
   max-width: 80rem;
   margin: 0 auto;
-  padding: 3rem 0;
+  padding: 3rem 6rem;
 `;
 
 const ProductListTitle = styled.h2`

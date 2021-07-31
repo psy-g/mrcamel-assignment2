@@ -1,8 +1,19 @@
 import React, { Component } from "react";
-import styled, { ThemeProvider } from "styled-components/macro";
-import { theme } from "styles/theme";
+import styled from "styled-components/macro";
 
 import Header from "components/layout/header";
+
+class Layout extends Component {
+  render() {
+    return (
+        <Wrapper>
+          <Header />
+          <StyledMain>{this.props.children}</StyledMain>
+        </Wrapper>
+
+    );
+  }
+}
 
 const Wrapper = styled.div`
   position: relative;
@@ -15,17 +26,5 @@ const StyledMain = styled.main`
   padding-top: 7.4rem;
 `;
 
-class Layout extends Component {
-  render() {
-    return (
-      <ThemeProvider theme={theme}>
-        <Wrapper>
-          <Header />
-          <StyledMain>{this.props.children}</StyledMain>
-        </Wrapper>
-      </ThemeProvider>
-    );
-  }
-}
 
 export default Layout;

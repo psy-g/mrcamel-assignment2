@@ -2,37 +2,6 @@ import React, {Component, createRef} from 'react';
 import {createPortal} from "react-dom";
 import styled from "styled-components/macro";
 
-const Wrapper = styled.div`
-	position: fixed;
-	top: 0;
-	right: 0;
-	bottom: 0;
-	left: 0;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	width: 100%;
-	background-color: rgba(0,0,0,0.4);
-	z-index: 10000;
-	
-	&[hidden] {
-		display: none;
-	}
-`;
-
-const StyledModal = styled.article`
-	position: relative;
-	display: flex;
-	flex-direction: column;
-	width: 40rem;
-	background-color: #fff;
-`;
-
-const ModalHeader = styled.div`
-  height: 40px;
-  background-color: #9eadba;
-`
-
 class Modal extends Component {
 	constructor(props) {
 		super(props);
@@ -134,3 +103,35 @@ class Modal extends Component {
 }
 
 export default Modal;
+
+
+const Wrapper = styled.div`
+	position: fixed;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+	background-color: rgba(0,0,0,0.4);
+	z-index: 10000;
+	
+	&[hidden] {
+		display: none;
+	}
+`;
+
+const StyledModal = styled.article`
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	width: 40rem;
+	background-color: #fff;
+`;
+
+const ModalHeader = styled.div`
+  height: 40px;
+  background-color: #9eadba;
+`

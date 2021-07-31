@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import styled from 'styled-components/macro';
 
-class Modal extends Component {
+class Alert extends Component {
   render() {
     return (
       <ModalWrap>
@@ -57,4 +57,4 @@ const ModalContent = styled.p`
   background-color: #eee;
   font-size: 2rem;
 `;
-export default Modal;
+export default Alert;

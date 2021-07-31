@@ -7,9 +7,6 @@ import {sortingOptions} from "utils/constant";
 
 class ModalSortingSelector extends Component {
 
-	constructor(props) {
-		super(props);
-	}
 
 	render() {
 		const { currentSortingOpt, handleSelectSortingOpt, className } = this.props;

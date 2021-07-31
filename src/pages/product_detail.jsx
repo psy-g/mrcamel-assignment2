@@ -5,7 +5,7 @@ import Layout from 'components/layout';
 import { notInterestedStorage, recentHistoryStorage } from 'utils/storage';
 import { fetchData } from 'utils';
 
-class ProductDetailPage extends Component {
+class ProductDetail extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -16,11 +16,6 @@ class ProductDetailPage extends Component {
   }
 
   componentDidMount() {
-    const {
-      match: {
-        params: { id },
-      },
-    } = this.props;
     fetchData().then((res) => {
       this.setState({
         ...this.state,
@@ -116,7 +111,7 @@ class ProductDetailPage extends Component {
   }
 }
 
-export default ProductDetailPage;
+export default ProductDetail;
 
 const Container = styled.div`
   width: 80rem;
