@@ -37,22 +37,29 @@ class RecentList extends Component {
     }));
   };
 
-  componentDidMount = () => {
-    let temp = [];
+  combineData = () => {
     const recentHistory = recentHistoryStorage.load();
+    const notInterestedId = notInterestedStorage.load().map((ele) => ele.id);
+    let temp = [];
+
+    let sum = recentHistory.map((ele) =>
+      notInterestedId.indexOf(ele.id) !== -1
+        ? Object.assign(ele, { isNotInterest: true })
+        : Object.assign(ele, { isNotInterest: false }),
+    );
+    const brandArr = sum
+      .filter((ele) => temp.indexOf(ele.brand) === -1 && temp.push(ele.brand))
+      .map((ele) => ele.brand);
+
+    this.setState({ data: sum, brand: [...this.state.brand, ...brandArr] });
+  };
+
+  componentDidMount = () => {
+    const recentHistory = recentHistoryStorage.load();
+    let temp = [];
 
     if (recentHistory && notInterestedStorage.load()) {
-      const notInterestedId = notInterestedStorage.load().map((ele) => ele.id);
-      let sum = recentHistory.map((ele) =>
-        notInterestedId.indexOf(ele.id) !== -1
-          ? Object.assign(ele, { isNotInterest: true })
-          : Object.assign(ele, { isNotInterest: false }),
-      );
-      const brandArr = sum
-        .filter((ele) => temp.indexOf(ele.brand) === -1 && temp.push(ele.brand))
-        .map((ele) => ele.brand);
-
-      this.setState({ data: sum, brand: [...this.state.brand, ...brandArr] });
+      this.combineData();
     } else if (recentHistory) {
       let sum = recentHistory.map((ele) => Object.assign(ele, { isNotInterest: false }));
 
@@ -65,19 +72,21 @@ class RecentList extends Component {
   };
 
   componentDidUpdate(prevProps, prevState) {
+    const { data } = this.state;
+
     if (this.state.currentSortingOpt !== prevState.currentSortingOpt) {
       switch (this.state.currentSortingOpt) {
         case '최근 조회 순':
-          //TODO
+          this.combineData();
           return;
 
         case '낮은 가격 순':
-          const sortedLowPrice = [...this.state.data].sort((a, b) => a[1].price - b[1].price);
+          const sortedLowPrice = data.sort((a, b) => a.price - b.price);
           this.setState({ data: sortedLowPrice });
           return;
 
         default:
-          //TODO
+          this.combineData();
           return;
       }
     }
@@ -192,10 +201,3 @@ const StyledSortingContainer = styled.div`
   margin-bottom: 1rem;
 `;
 
-const StyledSortingSelector = styled(ModalSortingSelector)`
-  
-`;
-const ProductContainer = styled.ul`
-  max-width: 1200px;
-  margin: 0 auto;
-`;
