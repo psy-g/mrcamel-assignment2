@@ -1,11 +1,11 @@
-import React, { Component } from "react";
-import styled from "styled-components";
-import { Link } from "react-router-dom";
+import React, { Component } from 'react';
+import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
-import Layout from "components/layout";
-import Product from "components/product/product";
+import Layout from 'components/layout';
+import Product from 'components/product/product';
 
-const API = "http://localhost:3000/data/product.json";
+const API = 'http://localhost:3000/data/product.json';
 
 class Home extends Component {
   constructor(props) {
@@ -20,13 +20,13 @@ class Home extends Component {
       .then((res) => res.json())
       .then((res) => {
         this.setState({ products: res });
-        localStorage.setItem("items", JSON.stringify(this.state.products));
+        localStorage.setItem('items', JSON.stringify(this.state.products));
       });
-    JSON.parse(localStorage.getItem("d"));
+    JSON.parse(localStorage.getItem('d'));
   };
 
   render() {
-    const products = JSON.parse(localStorage.getItem("items"));
+    const products = JSON.parse(localStorage.getItem('items'));
     return (
       <Layout>
         <ListWrap>
@@ -50,7 +50,7 @@ class Home extends Component {
                 price={product.price}
                 interest={product.interest}
               />
-            )
+            ),
           )}
         </ListWrap>
       </Layout>

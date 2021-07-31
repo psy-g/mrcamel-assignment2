@@ -14,7 +14,6 @@ class ProductDetailPage extends Component {
   }
 
   componentDidMount() {
-    const fetchProducts = fetch('');
     fetchData().then((res) => {
       this.setState({
         ...this.state,
@@ -35,19 +34,6 @@ class ProductDetailPage extends Component {
     setSelected([...selected, { ...product, interest: true }]);
   };
 
-
-  componentDidMount() {
-    fetch("http://localhost:3000/data/product.json")
-      .then((res) => res.json())
-      .then((res) => {
-        this.setState({
-          products: res,
-          product: res[this.props.match.params.id - 1],
-        });
-        this.addStorage(res[this.props.match.params.id - 1]);
-      });
-  }
-
   randomProduct = () => {
     // 관심없음 상품, 현 상품 제외하고 랜덤 상품 id 생성
     const notInterestedId = getNotInterestedId();
@@ -55,10 +41,7 @@ class ProductDetailPage extends Component {
     const avaliableProductIds = this.state.products
       .map((product) => product.id)
       .filter((id) => !notInterestedId.includes(id) && id !== currentProductId);
-    const randomId =
-      avaliableProductIds[
-        Math.floor(Math.random() * avaliableProductIds.length)
-      ];
+    const randomId = avaliableProductIds[Math.floor(Math.random() * avaliableProductIds.length)];
 
     if (avaliableProductIds.length === 0) {
       this.setState({ ...this.state, noMoreProduct: true });
