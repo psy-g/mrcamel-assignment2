@@ -3,9 +3,8 @@ import styled from 'styled-components/macro';
 
 class Product extends Component {
   render() {
-    console.log('뭐지', this.props);
     return (
-      <ProductWrap check={this.props.check}>
+      <ProductWrap check={this.props.notInterest}>
         <ProductContent>Title: {this.props.title}</ProductContent>
         <ProductContent>Brand: {this.props.brand}</ProductContent>
         <ProductContent>Price: {this.props.price}</ProductContent>

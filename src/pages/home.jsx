@@ -19,13 +19,10 @@ class Home extends Component {
       this.setState({ products: res });
       localStorage.setItem('items', JSON.stringify(this.state.products));
     });
-
-    JSON.parse(localStorage.getItem('d'));
   };
 
   render() {
     const products = JSON.parse(localStorage.getItem('items'));
-    console.log(getNotInterestedId());
     return (
       <Layout>
         <ListWrap>
