@@ -17,17 +17,15 @@ class Home extends Component {
   componentDidMount = () => {
     fetchData().then((res) => {
       this.setState({ products: res });
-      localStorage.setItem('items', JSON.stringify(this.state.products));
     });
   };
 
   render() {
-    const products = JSON.parse(localStorage.getItem('items'));
     return (
       <Layout>
         <ListWrap>
           <ProductListTitle>상품 목록</ProductListTitle>
-          {products.map((product) =>
+          {this.state.products.map((product, index) =>
             !getNotInterestedId().includes(String(product.id)) ? (
               <Link to={`/product/${product.id}`} key={product.id}>
                 <Product
