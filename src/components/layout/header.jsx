@@ -1,8 +1,8 @@
-import React, { Component } from "react";
-import { Link } from "react-router-dom";
-import styled from "styled-components";
+import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
+import styled from 'styled-components';
 
-import Logo from "assets/images/pc_img.png";
+import Logo from 'assets/images/pc_img.png';
 
 export class Header extends Component {
   render() {
@@ -28,9 +28,8 @@ export class Header extends Component {
 const Wrap = styled.header`
   position: fixed;
   top: 0;
-
+  /* width: 100%; */
   width: 100vw;
-
   display: flex;
   justify-content: space-between;
   padding: 2rem 4rem;

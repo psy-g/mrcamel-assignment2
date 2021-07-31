@@ -1,11 +1,10 @@
-import React, { Component } from "react";
-import styled from "styled-components";
-import { Link } from "react-router-dom";
+import React, { Component } from 'react';
+import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
-import Layout from "components/layout";
-import Product from "components/product/product";
-
-const API = "http://localhost:3000/data/product.json";
+import Layout from 'components/layout';
+import Product from 'components/product/product';
+import { fetchData, getNotInterestedId } from 'utils/utils';
 
 class Home extends Component {
   constructor(props) {
@@ -16,22 +15,23 @@ class Home extends Component {
   }
 
   componentDidMount = () => {
-    fetch(API)
-      .then((res) => res.json())
-      .then((res) => {
-        this.setState({ products: res });
-        localStorage.setItem("items", JSON.stringify(this.state.products));
-      });
+    fetchData().then((res) => {
+      this.setState({ products: res });
+      localStorage.setItem('items', JSON.stringify(this.state.products));
+    });
+
+    JSON.parse(localStorage.getItem('d'));
   };
 
   render() {
-    const products = JSON.parse(localStorage.getItem("items"));
+    const products = JSON.parse(localStorage.getItem('items'));
+    console.log(getNotInterestedId());
     return (
       <Layout>
         <ListWrap>
           <ProductListTitle>상품 목록</ProductListTitle>
           {products.map((product) =>
-            !product.check ? (
+            !getNotInterestedId().includes(String(product.id)) ? (
               <Link to={`/product/${product.id}`} key={product.id}>
                 <Product
                   key={product.id}
@@ -47,9 +47,9 @@ class Home extends Component {
                 title={product.title}
                 brand={product.brand}
                 price={product.price}
-                interest={product.interest}
+                notInterest={getNotInterestedId().includes(String(product.id))}
               />
-            )
+            ),
           )}
         </ListWrap>
       </Layout>

@@ -1,5 +1,5 @@
-import React, { Component, createRef } from "react";
-import styled from "styled-components/macro";
+import React, { Component, createRef } from 'react';
+import styled from 'styled-components/macro';
 
 class Filter extends Component {
   constructor(props) {
@@ -10,18 +10,20 @@ class Filter extends Component {
     this.checkBoxRef = createRef();
   }
 
+  // 브랜드 필터
   brandFilter = (e) => {
     const target = e;
-    const getSelected = JSON.parse(localStorage.getItem("selected"));
+    const getSelected = JSON.parse(localStorage.getItem('selected'));
 
     // 전체
-    if (target === "전체") {
-      this.setState({ data: getSelected, allBtn: true });
+    if (target === '전체') {
+      this.props.changeData(getSelected);
+      this.setState({ allBtn: true });
       for (let i = 1; i < this.checkBoxRef.current.children.length; i++) {
         this.checkBoxRef.current.children[i].children[0].checked = false;
       }
     } else {
-      let checkbox = this.checkBoxRef.current.getElementsByTagName("input");
+      let checkbox = this.checkBoxRef.current.getElementsByTagName('input');
       let selectedBrand = [];
 
       for (let ele of checkbox) {
@@ -29,32 +31,34 @@ class Filter extends Component {
       }
 
       if (selectedBrand.length > 0) {
-        let temp = getSelected.filter(
-          (ele) => selectedBrand.indexOf(ele.brand) !== -1
-        );
-        this.setState({ data: temp, allBtn: false });
+        let temp = getSelected.filter((ele) => selectedBrand.indexOf(ele.brand) !== -1);
+        this.props.changeData(temp);
+        this.setState({ allBtn: false });
       } else {
-        this.setState({ data: getSelected, allBtn: true });
+        this.props.changeData(getSelected);
+        this.setState({ allBtn: true });
       }
     }
   };
 
   // 관심 필터
   interestFilter = () => {
-    const { checkInterest } = this.state;
+    const { checkInterest } = this.props;
 
     // 관심 필터 체크 O
     if (checkInterest) {
-      this.setState({ checkInterest: false });
+      this.props.changeInterest(false);
     }
     // 관심 필터 체크 X
     else {
-      this.setState({ checkInterest: true });
+      this.props.changeInterest(true);
     }
   };
 
   render() {
     const { brand } = this.props;
+
+    const { allBtn } = this.state;
 
     return (
       <Container>
@@ -64,21 +68,15 @@ class Filter extends Component {
             {(brand || []).map((ele, index) =>
               index === 0 ? (
                 <label key={index}>
-                  <StyledCheckbox
-                    checked={this.allBtn}
-                    onChange={this.brandFilter}
-                  />
+                  <StyledCheckbox checked={allBtn} onChange={() => this.brandFilter(ele)} />
                   <span>{ele}</span>
                 </label>
               ) : (
                 <label key={index}>
-                  <RemainCheckbox
-                    onChange={this.brandFilter}
-                    allBtn={this.allBtn}
-                  />
+                  <RemainCheckbox onChange={this.brandFilter} allBtn={allBtn} />
                   <span>{ele}</span>
                 </label>
-              )
+              ),
             )}
           </CheckboxContainer>
         </Brand>
@@ -140,7 +138,7 @@ const CheckboxContainer = styled.div`
 `;
 
 const StyledCheckbox = styled.input.attrs((props) => ({
-  type: "checkbox",
+  type: 'checkbox',
   // checked: props.allBtn ? false : true,
 }))`
   display: inline-block;
@@ -149,7 +147,7 @@ const StyledCheckbox = styled.input.attrs((props) => ({
 `;
 
 const RemainCheckbox = styled.input.attrs({
-  type: "checkbox",
+  type: 'checkbox',
 })`
   display: inline-block;
   width: 2rem;
