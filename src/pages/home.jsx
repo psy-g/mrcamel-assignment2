@@ -15,7 +15,6 @@ class Home extends Component {
   }
 
   componentDidMount = () => {
-
     fetchData().then((res) => {
       this.setState({ products: res });
     });
