@@ -1,11 +1,12 @@
-import React, { Component } from "react";
-import styled from "styled-components";
-import { Link } from "react-router-dom";
+import React, { Component } from 'react';
+import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
-import Layout from "components/layout";
-import Filter from "components/filter";
-import ModalSortingSelector from "components/modal_sorting_selector";
-import { SORTING_OPTIONS } from "utils/constant";
+import Layout from 'components/layout';
+import Filter from 'components/filter';
+import ModalSortingSelector from 'components/modal_sorting_selector';
+import { SORTING_OPTIONS } from 'utils/constant';
+import { getSelected } from 'utils/utils';
 
 class RecentList extends Component {
   constructor(props) {
@@ -13,7 +14,7 @@ class RecentList extends Component {
     this.state = {
       data: [],
       checkInterest: true,
-      brand: ["전체"],
+      brand: ['전체'],
       currentSortingOpt: SORTING_OPTIONS[0],
     };
   }
@@ -21,11 +22,10 @@ class RecentList extends Component {
   handleSelectSortingOpt = (e) => {
     const target = e.target;
     const nodeName = target.nodeName.toLowerCase();
-    if (nodeName === "button") {
+    if (nodeName === 'button') {
       this.setState({ currentSortingOpt: target.innerText });
     }
   };
-
 
   changeData = (change) => {
     this.setState((prevState) => ({
@@ -34,45 +34,30 @@ class RecentList extends Component {
   };
 
   componentDidMount = () => {
-    fetch("http://localhost:3000/data/product.json")
-      .then((res) => res.json())
-      .then((res) => {
-        let temp = res.filter((ele) => ele.id % 10 === 0); // 필터 작업용
-        let temp2 = temp.map((ele, index) =>
-          index % 2 === 0
-            ? Object.assign(ele, { interest: true })
-            : Object.assign(ele, { interest: false })
-        ); // 관심 작업용
-        // localStorage.setItem("selected", JSON.stringify(temp2));
-        // const getSelected = JSON.parse(localStorage.getItem("selected"));
-        this.setState({ data: temp });
-        let arr = [];
-        let temp3 = this.state.data.filter(
-          (ele) => arr.indexOf(ele.brand) === -1 && arr.push(ele.brand)
-        );
-        let test = [];
-        temp3.forEach((ele) => test.push(ele.brand));
-        this.setState({ brand: [...this.state.brand, ...test] });
-      });
+    let temp = [];
+    const getStorage = getSelected();
+    const brandArr = getStorage
+      .filter((ele) => temp.indexOf(ele.brand) === -1 && temp.push(ele.brand))
+      .map((ele) => ele.brand);
+
+    this.setState({ data: getStorage, brand: [...this.state.brand, ...brandArr] });
   };
 
   componentDidUpdate(prevProps, prevState) {
     if (this.state.currentSortingOpt !== prevState.currentSortingOpt) {
-      switch(this.state.currentSortingOpt) {
+      switch (this.state.currentSortingOpt) {
         case '최근 조회 순':
           //TODO
-           return;
+          return;
 
         case '낮은 가격 순':
-          const sortedLowPrice = [...this.state.data].sort((a,b) =>
-            a[1].price - b[1].price
-          );
-          this.setState({data: sortedLowPrice});
+          const sortedLowPrice = [...this.state.data].sort((a, b) => a[1].price - b[1].price);
+          this.setState({ data: sortedLowPrice });
           return;
 
         default:
           //TODO
-        	return;
+          return;
       }
     }
   }
@@ -82,7 +67,6 @@ class RecentList extends Component {
       checkInterest: change,
     }));
   };
-
 
   render() {
     const { data, brand, checkInterest } = this.state;
@@ -110,9 +94,7 @@ class RecentList extends Component {
                     <ProductContent>Title: {ele.title}</ProductContent>
                     <ProductContent>Brand: {ele.brand}</ProductContent>
                     <ProductContent>Price: {ele.price}</ProductContent>
-                    {!ele.interest && (
-                      <ProductInteresting>관심없음</ProductInteresting>
-                    )}
+                    {!ele.interest && <ProductInteresting>관심없음</ProductInteresting>}
                   </ProductWrap>
                 </Link>
               ))}
@@ -129,7 +111,7 @@ class RecentList extends Component {
                         <ProductContent>Price: {ele.price}</ProductContent>
                       </ProductWrap>
                     </Link>
-                  )
+                  ),
               )}
             </>
           )}
