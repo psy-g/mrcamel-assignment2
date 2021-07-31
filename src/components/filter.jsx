@@ -21,11 +21,11 @@ class Filter extends Component {
       const notInterestedId = notInterestedStorage.load().map((ele) => ele.id);
       sum = recentHistory.map((ele) =>
         notInterestedId.indexOf(ele.id) !== -1
-          ? Object.assign(ele, { interest: false })
-          : Object.assign(ele, { interest: true }),
+          ? Object.assign(ele, { isNotInterest: true })
+          : Object.assign(ele, { isNotInterest: false }),
       );
     } else if (recentHistory) {
-      sum = recentHistory.map((ele) => Object.assign(ele, { interest: true }));
+      sum = recentHistory.map((ele) => Object.assign(ele, { isNotInterest: false }));
     }
     // 전체
     if (target === '전체') {

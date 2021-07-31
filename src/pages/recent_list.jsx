@@ -131,9 +131,10 @@ class RecentList extends Component {
             handleCheckNotInterest={this.handleCheckNotInterest}
             isCheckNotInterest={isCheckNotInterest}
             changeInterest={this.changeInterest}
+            changeData={this.changeData}
           />
           <StyledSortingContainer>
-            <StyledSortingSelector
+            <ModalSortingSelector
               currentSortingOpt={this.state.currentSortingOpt}
               handleSelectSortingOpt={this.handleSelectSortingOpt}
             />
@@ -201,3 +202,7 @@ const StyledSortingContainer = styled.div`
   margin-bottom: 1rem;
 `;
 
+const ProductContainer = styled.ul`
+  max-width: 1200px;
+  margin: 0 auto;
+`;

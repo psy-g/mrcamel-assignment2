@@ -34,10 +34,8 @@ class ProductDetailPage extends Component {
   addStorage = (product) => {
     if (recentHistoryStorage.load() && recentHistoryStorage.load().length) {
       const data = recentHistoryStorage.load();
-      console.log('data',data);
       const id = this.props.match.params.id;
       const newData = data.filter((item) => item.id !== id);
-      console.log('why',[product, ...newData]);
       recentHistoryStorage.save([product, ...newData]);
     } else {
       recentHistoryStorage.save([product]);
