@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
+
 import Layout from 'components/layout';
-import { fetchData, getNotInterestedId, getSelected, setSelected } from 'utils/utils';
+import { notInterestedStorage, recentHistoryStorage } from "utils/storage";
+import { getData } from "utils/fetch";
+import { fetchData, getNotInterestedId, getSelected, setSelected } from 'utils/utils'
 
 class ProductDetailPage extends Component {
   constructor(props) {
@@ -14,6 +17,11 @@ class ProductDetailPage extends Component {
   }
 
   componentDidMount() {
+    const {match:{params:{ id }}} = this.props;
+    getData().then(res => {
+      notInterestedStorage.save()
+      res[id - 1]
+    })
     fetchData().then((res) => {
       this.setState({
         ...this.state,
