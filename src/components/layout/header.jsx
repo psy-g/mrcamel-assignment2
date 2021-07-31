@@ -28,7 +28,6 @@ export class Header extends Component {
 const Wrap = styled.header`
   position: fixed;
   top: 0;
-  /* width: 100%; */
   width: 100vw;
   display: flex;
   justify-content: space-between;

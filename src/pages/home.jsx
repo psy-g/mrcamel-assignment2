@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import { createPortal } from 'react-dom';
+
 import Layout from 'components/layout';
 import Product from 'components/product/product';
 import { fetchData, getNotInterestedId } from 'utils';

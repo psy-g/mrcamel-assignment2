@@ -6,14 +6,13 @@ import Header from "components/layout/header";
 
 const Wrapper = styled.div`
   position: relative;
-  /* width: 100%; */
   width: 100vw;
   min-height: 100vh;
 `;
 const StyledMain = styled.main`
   width: 100%;
   height: 100%;
-  padding-top: 6rem;
+  padding-top: 7.4rem;
 `;
 
 class Layout extends Component {

@@ -5,16 +5,6 @@ import Modal from 'components/modal';
 import SortingItem from "components/sorting_item";
 import {sortingOptions} from "utils/constant";
 
-const OpenerBtn = styled.button`
-	width: 10rem;
-	border: 1px solid #333;
-	text-align: center;
-`;
-const SortingList = styled.ul`
-	width: 100%;
-`
-
-
 class ModalSortingSelector extends Component {
 
 	constructor(props) {
@@ -22,18 +12,19 @@ class ModalSortingSelector extends Component {
 	}
 
 	render() {
-		const { currentSortingOpt, handleSelectSortingOpt } = this.props;
+		const { currentSortingOpt, handleSelectSortingOpt, className } = this.props;
 		return (
 			<Modal
 				label="상품정렬 옵션 선택 모달"
 				trigger={
 					({handleOpen, isOpen}) => (
 						<OpenerBtn
+							className={className}
 							aria-haspopup="true"
 							aria-pressed={ isOpen }
 							onClick={ handleOpen }
 						>
-							정렬버튼
+							정렬: {currentSortingOpt}
 						</OpenerBtn>
 					)
 				}
@@ -56,3 +47,15 @@ class ModalSortingSelector extends Component {
 }
 
 export default ModalSortingSelector;
+
+const OpenerBtn = styled.button`
+  width: 15rem;
+  height: 3rem;
+  border: 1px solid #1b25f0;
+  padding: .5rem;
+	font-weight: 600;
+	color: #1b25f0;
+`;
+const SortingList = styled.ul`
+	width: 100%;
+`

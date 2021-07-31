@@ -4,9 +4,13 @@ export default class Storage {
 	};
 
 	save = (list = []) => {
-		return localStorage.setItem(this.title, JSON.stringify(list));
+		const obj = {
+			data: list,
+			woong: '',
+		}
+		return localStorage.setItem(this.title, JSON.stringify(obj));
 	};
 
-	load = () => JSON.parse(localStorage.getItem(this.title));
+	load = () => JSON.parse(localStorage.getItem(this.title))?.data;
 }
 
