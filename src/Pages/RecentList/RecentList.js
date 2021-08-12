@@ -2,14 +2,13 @@ import React, { Component } from 'react';
 import styled from 'styled-components/macro';
 import { createPortal } from 'react-dom';
 
-import { sortingOptions } from 'utils/constant';
-import { notInterestedStorage, recentHistoryStorage} from 'utils/storage';
-import Layout from 'components/layout';
-import Filter from 'components/filter';
-import ModalSortingSelector from 'components/modal_sorting_selector';
-import Product from 'components/product';
-import Alert from 'components/alert';
-
+import { sortingOptions } from 'Constants/Constant';
+import { notInterestedStorage, recentHistoryStorage } from 'Utils/Storage';
+import Layout from 'Layout';
+import Filter from 'Components/Filter/Filter';
+import ModalSortingSelector from 'Components/ModalSortingSelector/ModalSortingSelector';
+import Product from 'Components/Product/Product';
+import Alert from 'Components/Alert/Alert';
 
 class RecentList extends Component {
   constructor(props) {
@@ -51,7 +50,7 @@ class RecentList extends Component {
       .filter((ele) => temp.indexOf(ele.brand) === -1 && temp.push(ele.brand))
       .map((ele) => ele.brand);
     if (this.state.brand.length > 1) {
-      this.setState({ data: sum, brand: [...this.state.brand]});
+      this.setState({ data: sum, brand: [...this.state.brand] });
     } else {
       this.setState({ data: sum, brand: [...this.state.brand, ...brandArr] });
     }
@@ -98,9 +97,9 @@ class RecentList extends Component {
   handleCheckNotInterest = (e) => {
     const checked = e.target.checked;
     if (checked) {
-      this.setState({isCheckNotInterest: true});
+      this.setState({ isCheckNotInterest: true });
     } else {
-      this.setState({isCheckNotInterest: false});
+      this.setState({ isCheckNotInterest: false });
     }
   };
 
@@ -143,23 +142,24 @@ class RecentList extends Component {
             />
           </StyledSortingContainer>
           <ProductContainer onClick={this.clickHandler}>
-          {!isCheckNotInterest ? (
-            <>
-              {(data || []).map((product, index) => (
-                <Product
-                  key={product.id}
-                  title={product.title}
-                  brand={product.brand}
-                  price={product.price}
-                  id={product.id}
-                  notinterest={product.isNotInterest}
-                />
-              ))}
-            </>
-          ) : (
-            <>
-              {(data || []).filter((product) => !product.isNotInterest).map(product =>
-                    (
+            {!isCheckNotInterest ? (
+              <>
+                {(data || []).map((product, index) => (
+                  <Product
+                    key={product.id}
+                    title={product.title}
+                    brand={product.brand}
+                    price={product.price}
+                    id={product.id}
+                    notinterest={product.isNotInterest}
+                  />
+                ))}
+              </>
+            ) : (
+              <>
+                {(data || [])
+                  .filter((product) => !product.isNotInterest)
+                  .map((product) => (
                     <Product
                       key={product.id}
                       title={product.title}
@@ -168,10 +168,9 @@ class RecentList extends Component {
                       id={product.id}
                       notinterest={product.isNotInterest}
                     />
-                  )
-              )}
-            </>
-          )}
+                  ))}
+              </>
+            )}
           </ProductContainer>
         </ListWrap>
         {this.state.isOpen && createPortal(<Alert onClose={this.closeHandler} />, document.body)}

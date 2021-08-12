@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-import Logo from 'assets/images/pc_img.png';
+import Logo from 'Assets/Images/pc_img.png';
 
 export class Header extends Component {
   render() {

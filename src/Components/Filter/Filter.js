@@ -1,6 +1,6 @@
 import React, { Component, createRef } from 'react';
 import styled from 'styled-components/macro';
-import { notInterestedStorage, recentHistoryStorage } from 'utils/storage';
+import { notInterestedStorage, recentHistoryStorage } from 'Utils/Storage';
 
 class Filter extends Component {
   constructor(props) {

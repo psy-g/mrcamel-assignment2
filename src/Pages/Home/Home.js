@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import { createPortal } from 'react-dom';
 
-import Layout from 'components/layout';
-import Product from 'components/product';
-import Alert from 'components/alert';
-import { fetchData, getNotInterestedId } from 'utils';
+import Layout from 'Layout';
+import Product from 'Components/Product/Product';
+import Alert from 'Components/Alert/Alert';
+import { fetchData, getNotInterestedId } from 'Utils';
 
 class Home extends Component {
   constructor(props) {

@@ -1,7 +1,4 @@
-import { fetchData} from "utils/fetch";
-import {getNotInterestedId } from "utils/storage";
+import { fetchData } from 'Utils/fetch';
+import { getNotInterestedId } from 'Utils/Storage';
 
-export {
-	getNotInterestedId,
-	fetchData,
-}
+export { getNotInterestedId, fetchData };
