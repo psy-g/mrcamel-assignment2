@@ -1,16 +1,15 @@
-import React, { Component } from "react";
-import styled from "styled-components/macro";
+import React, { Component } from 'react';
+import styled from 'styled-components/macro';
 
-import Header from "components/layout/header";
+import Header from 'Layout/Header';
 
 class Layout extends Component {
   render() {
     return (
-        <Wrapper>
-          <Header />
-          <StyledMain>{this.props.children}</StyledMain>
-        </Wrapper>
-
+      <Wrapper>
+        <Header />
+        <StyledMain>{this.props.children}</StyledMain>
+      </Wrapper>
     );
   }
 }
@@ -25,6 +24,5 @@ const StyledMain = styled.main`
   height: 100%;
   padding-top: 7.4rem;
 `;
-
 
 export default Layout;

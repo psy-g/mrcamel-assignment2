@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 
-import Layout from 'components/layout';
-import { notInterestedStorage, recentHistoryStorage } from 'utils/storage';
-import { fetchData } from 'utils';
+import Layout from 'Layout';
+import { notInterestedStorage, recentHistoryStorage } from 'Utils/Storage';
+import { fetchData } from 'Utils';
 
 class ProductDetail extends Component {
   constructor(props) {
