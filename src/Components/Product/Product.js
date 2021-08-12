@@ -3,16 +3,19 @@ import styled from 'styled-components/macro';
 
 class Product extends Component {
   render() {
+    const { id, notinterest, title, brand, price } = this.props;
+
     return (
-      <ProductWrap data-id={this.props.id} data-notinterest={this.props.notinterest}>
-        <ProductContent>Title: {this.props.title}</ProductContent>
-        <ProductContent>Brand: {this.props.brand}</ProductContent>
-        <ProductContent>Price: {this.props.price}</ProductContent>
-        {this.props.notinterest && <ProductInteresting>관심없음</ProductInteresting>}
+      <ProductWrap data-id={id} data-notinterest={notinterest}>
+        <ProductContent>Title: {title}</ProductContent>
+        <ProductContent>Brand: {brand}</ProductContent>
+        <ProductContent>Price: {price}</ProductContent>
+        {notinterest && <ProductInteresting>관심없음</ProductInteresting>}
       </ProductWrap>
     );
   }
 }
+
 const ProductWrap = styled.li`
   position: relative;
   height: 100%;

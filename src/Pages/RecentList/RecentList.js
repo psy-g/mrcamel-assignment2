@@ -98,11 +98,7 @@ class RecentList extends Component {
 
   handleCheckNotInterest = (e) => {
     const checked = e.target.checked;
-    if (checked) {
-      this.setState({ isCheckNotInterest: true });
-    } else {
-      this.setState({ isCheckNotInterest: false });
-    }
+    this.setState({ isCheckNotInterest: !checked });
   };
 
   clickHandler = (e) => {
