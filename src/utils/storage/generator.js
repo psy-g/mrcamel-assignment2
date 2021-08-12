@@ -9,17 +9,13 @@ export default class Storage {
       timestamp: new Date().getDay(),
     };
 
-    if (!localStorage.getItem(this.title)) {
-      localStorage.setItem(this.title, JSON.stringify(obj));
-    } else {
-      let previousTime = JSON.parse(localStorage.getItem(this.title))?.timestamp;
-      let currentTime = new Date().getDay();
+    const previousTime = JSON.parse(localStorage.getItem(this.title))?.timestamp;
+    const currentTime = new Date().getDay();
 
-      if (previousTime !== currentTime) {
-        return localStorage.clear();
-      } else {
-        return localStorage.setItem(this.title, JSON.stringify(obj));
-      }
+    if (previousTime) {
+      previousTime !== currentTime ? localStorage.clear() : localStorage.setItem(this.title, JSON.stringify(obj));
+    } else {
+      localStorage.setItem(this.title, JSON.stringify(obj));
     }
   };
 
