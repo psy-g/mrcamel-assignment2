@@ -3,6 +3,7 @@ import styled from 'styled-components/macro';
 
 import Modal from 'Components/Modal/Modal';
 import SortingItem from 'Components/SortingItem/SortingItem';
+
 import { sortingOptions } from 'Constants/Constant';
 
 class ModalSortingSelector extends Component {

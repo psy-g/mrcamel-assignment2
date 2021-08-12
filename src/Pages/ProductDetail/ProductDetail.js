@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 
-import Layout from 'Layout';
 import { notInterestedStorage, recentHistoryStorage } from 'Utils/Storage';
 import { fetchData } from 'Utils';
 
 import { ROUTES } from 'Constants/Constant';
+
+import Layout from 'Layout';
 
 class ProductDetail extends Component {
   constructor(props) {
