@@ -5,16 +5,18 @@ import Home from 'Pages/Home/Home';
 import ProductDetail from 'Pages/ProductDetail/ProductDetail';
 import RecentList from 'Pages/RecentList/RecentList';
 
-function App() {
+import { ROUTES } from 'Constants/Constant';
+
+function Routes() {
   return (
     <Router>
       <Switch>
-        <Route exact path="/" component={Home} />
-        <Route exact path="/product/:id" component={ProductDetail} />
-        <Route path="/recentList" component={RecentList} />
+        <Route exact path={ROUTES.HOME} component={Home} />
+        <Route exact path={`${ROUTES.PRODUCT}/:id`} component={ProductDetail} />
+        <Route path={ROUTES.RECENT_LIST} component={RecentList} />
       </Switch>
     </Router>
   );
 }
 
-export default App;
+export default Routes;

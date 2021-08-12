@@ -2,22 +2,24 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
+import { ROUTES, MENU } from 'Constants/Constant';
+
 import Logo from 'Assets/Images/pc_img.png';
 
 export class Header extends Component {
   render() {
     return (
       <Wrap>
-        <StyledLogo to="/" logo={Logo}>
+        <StyledLogo to={ROUTES.HOME} logo={Logo}>
           <h1 className="a11y">Mr.carmel</h1>
         </StyledLogo>
         <StyledNav>
           <NavList>
             <NavItem>
-              <StyledLink to="/">상품목록</StyledLink>
+              <StyledLink to={ROUTES.HOME}>{MENU.PRODUCT_LIST}</StyledLink>
             </NavItem>
             <NavItem>
-              <StyledLink to="/recentList">조회이력</StyledLink>
+              <StyledLink to={ROUTES.RECENT_LIST}>{MENU.LOOKUP_LIST}</StyledLink>
             </NavItem>
           </NavList>
         </StyledNav>
