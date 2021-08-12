@@ -1,4 +1,5 @@
 import Storage from 'Utils/Storage/Generator';
+
 import { localStorageTitle } from 'Constants/Constant';
 
 export const notInterestedStorage = new Storage(localStorageTitle.NOT_INTERESTED.name);

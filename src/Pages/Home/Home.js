@@ -2,12 +2,14 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import { createPortal } from 'react-dom';
 
-import Layout from 'Layout';
-import Product from 'Components/Product/Product';
-import Alert from 'Components/Alert/Alert';
 import { fetchData, getNotInterestedId } from 'Utils';
 
+import Alert from 'Components/Alert/Alert';
+import Product from 'Components/Product/Product';
+
 import { ROUTES, MENU } from 'Constants/Constant';
+
+import Layout from 'Layout';
 
 class Home extends Component {
   constructor(props) {

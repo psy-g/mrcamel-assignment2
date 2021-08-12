@@ -2,15 +2,16 @@ import React, { Component } from 'react';
 import styled from 'styled-components/macro';
 import { createPortal } from 'react-dom';
 
-import { sortingOptions } from 'Constants/Constant';
 import { notInterestedStorage, recentHistoryStorage } from 'Utils/Storage';
-import Layout from 'Layout';
+
+import Alert from 'Components/Alert/Alert';
 import Filter from 'Components/Filter/Filter';
 import ModalSortingSelector from 'Components/ModalSortingSelector/ModalSortingSelector';
 import Product from 'Components/Product/Product';
-import Alert from 'Components/Alert/Alert';
 
-import { ROUTES, MENU } from 'Constants/Constant';
+import { ROUTES, MENU, sortingOptions } from 'Constants/Constant';
+
+import Layout from 'Layout';
 
 class RecentList extends Component {
   constructor(props) {

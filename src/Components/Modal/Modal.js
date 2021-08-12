@@ -1,6 +1,6 @@
 import React, { Component, createRef } from 'react';
-import { createPortal } from 'react-dom';
 import styled from 'styled-components/macro';
+import { createPortal } from 'react-dom';
 
 class Modal extends Component {
   constructor(props) {
