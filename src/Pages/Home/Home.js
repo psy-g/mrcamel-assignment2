@@ -7,6 +7,8 @@ import Product from 'Components/Product/Product';
 import Alert from 'Components/Alert/Alert';
 import { fetchData, getNotInterestedId } from 'Utils';
 
+import { ROUTES, MENU } from 'Constants/Constant';
+
 class Home extends Component {
   constructor(props) {
     super(props);
@@ -29,7 +31,7 @@ class Home extends Component {
       if (target.dataset.notinterest) {
         this.setState({ isOpen: true });
       } else {
-        this.props.history.push(`/product/${target.dataset.id}`);
+        this.props.history.push(`${ROUTES.PRODUCT}/${target.dataset.id}`);
       }
     }
   };
@@ -42,7 +44,7 @@ class Home extends Component {
     return (
       <Layout>
         <ListWrap>
-          <ProductListTitle>상품 목록</ProductListTitle>
+          <ProductListTitle>{MENU.PRODUCT_LIST}</ProductListTitle>
           <ul onClick={this.clickHandler}>
             {this.state.products.map((product) =>
               !getNotInterestedId().includes(String(product.id)) ? (

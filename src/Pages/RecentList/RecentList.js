@@ -10,6 +10,8 @@ import ModalSortingSelector from 'Components/ModalSortingSelector/ModalSortingSe
 import Product from 'Components/Product/Product';
 import Alert from 'Components/Alert/Alert';
 
+import { ROUTES, MENU } from 'Constants/Constant';
+
 class RecentList extends Component {
   constructor(props) {
     super(props);
@@ -111,7 +113,7 @@ class RecentList extends Component {
       if (target.dataset.notinterest === 'true') {
         this.setState({ isOpen: true });
       } else {
-        this.props.history.push(`/product/${target.dataset.id}`);
+        this.props.history.push(`${ROUTES.PRODUCT}/${target.dataset.id}`);
       }
     }
   };
@@ -126,7 +128,7 @@ class RecentList extends Component {
     return (
       <Layout>
         <ListWrap>
-          <ProductListTitle>조회한 상품</ProductListTitle>
+          <ProductListTitle>{MENU.LOOKUP_LIST}</ProductListTitle>
           <StyledFilterBox
             data={data}
             brand={brand}

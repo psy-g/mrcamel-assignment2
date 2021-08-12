@@ -5,6 +5,8 @@ import Layout from 'Layout';
 import { notInterestedStorage, recentHistoryStorage } from 'Utils/Storage';
 import { fetchData } from 'Utils';
 
+import { ROUTES } from 'Constants/Constant';
+
 class ProductDetail extends Component {
   constructor(props) {
     super(props);
@@ -54,7 +56,7 @@ class ProductDetail extends Component {
     }
     // 랜덤 상품으로 이동
     if (avaliableProductIds.length > 0) {
-      this.props.history.push(`/product/${randomId}`);
+      this.props.history.push(`${ROUTES.PRODUCT}/${randomId}`);
       this.setState({ product: this.state.products[randomId - 1] });
       // // localStroage에 조회된 상품 추가
       setTimeout(() => {
@@ -80,7 +82,7 @@ class ProductDetail extends Component {
         <Container>
           <OutlineButton
             onClick={() => {
-              this.props.history.push('/');
+              this.props.history.push(ROUTES.HOME);
             }}
           >
             목록으로 돌아가기
