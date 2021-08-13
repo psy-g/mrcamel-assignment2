@@ -18,6 +18,16 @@
 |<b>윤맑은이슬</b>|상세 조회 & 관심 없음 / 로컬 스토리지 구현|
 |<b>정태웅</b>|정렬 (최근 조회 순, 낮은 가격 순) / 정렬 모달 구현 |
 
+## 💉 리팩토링
+- 구조 및 파일명 변경
+- 상수 추가
+- 로컬스토리지 초기화
+- 중복된 코드
+- import 순서
+
+노션 : https://nonstop-crustacean-495.notion.site/Assignment-Refactoring-7c67f493152c412e878562410e311b39
+
+
 
 ## 🔧 Built With
 
